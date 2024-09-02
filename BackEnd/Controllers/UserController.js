@@ -1,4 +1,3 @@
-
 const User = require("../models/UserModels");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt"); // أضف هذا إذا لم يكن موجوداً في الأعلى
@@ -11,6 +10,12 @@ exports.signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10); // تشفير كلمة المرور
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
+    const token = jwt.sign({ id: newUser._id }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    // تخزين التوكن في الكوكيز
+    res.cookie("jwt", token, { httpOnly: true, secure: false });
     res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
     res.status(500).json({ message: "Failed to create user", error });
