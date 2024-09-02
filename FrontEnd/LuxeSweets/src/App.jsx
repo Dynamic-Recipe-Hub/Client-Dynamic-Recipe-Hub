@@ -1,6 +1,9 @@
 import Login from "./Pages/UserLogin/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Signup from "./Pages/UserSignup/Signup";
+
+import ContactUs from "./Pages/ContactUs";
 
 function App() {
   return (
@@ -9,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
         </Routes>
       </BrowserRouter>
     </>

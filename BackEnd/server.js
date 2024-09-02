@@ -30,6 +30,12 @@ const authRoutes = require("./Routes/authRoutes");
 // استخدام الطرق
 app.use("/api/auth", authRoutes);
 
+
+const contactRoutes = require('./Routes/contactRouter');
+
+app.use('/api/contact', contactRoutes);
+
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
