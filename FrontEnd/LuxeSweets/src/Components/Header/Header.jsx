@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -6,10 +7,10 @@ function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  
   return (
     <>
-      <nav className="bg-[#b0956e] border-[#a07d5c]">
+      <nav className="bg-[#f5f3f0] border-b-2 border-[#a0785d] shadow-lg">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="https://flowbite.com/"
@@ -20,17 +21,17 @@ function Header() {
               className="h-8"
               alt="Flowbite Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-[#5f4b3a]">
               Flowbite
             </span>
           </a>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button
+            <Link to="/signup"
               type="button"
-              className="text-white bg-[#a0785d] hover:bg-[#8f6c49] focus:ring-4 focus:outline-none focus:ring-[#7a5c3f] font-medium rounded-lg text-sm px-4 py-2 text-center"
+              className="text-white bg-[#a0785d] hover:bg-[#8f6c49] focus:ring-4 focus:outline-none focus:ring-[#7a5c3f] font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out transform hover:scale-105"
             >
-              Get started
-            </button>
+              Sign Up
+            </Link>
             <button
               onClick={toggleMenu}
               type="button"
@@ -57,14 +58,16 @@ function Header() {
             </button>
           </div>
           <div
-            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? 'block' : 'hidden'}`}
+            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
+              isMenuOpen ? "block" : "hidden"
+            }`}
             id="navbar-cta"
           >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-[#c5a87d] rounded-lg bg-[#d1b89b] md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-[#b0956e]">
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-[#a0785d] rounded-lg bg-[#feefda] md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-[#f5f3f0]">
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-gray-400 rounded hover:bg-[#8f6c49] md:hover:bg-transparent md:hover:text-[#ffffff] dark:text-white dark:hover:bg-[#b0956e]"
+                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Home
                 </a>
@@ -72,7 +75,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-gray-400 rounded hover:bg-[#8f6c49] md:hover:bg-transparent md:hover:text-[#ffffff] dark:text-white dark:hover:bg-[#b0956e]"
+                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   About
                 </a>
@@ -80,7 +83,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-gray-400 rounded hover:bg-[#8f6c49] md:hover:bg-transparent md:hover:text-[#ffffff] dark:text-white dark:hover:bg-[#b0956e]"
+                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Services
                 </a>
@@ -88,7 +91,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 md:p-0 text-gray-400 rounded hover:bg-[#8f6c49] md:hover:bg-transparent md:hover:text-[#ffffff] dark:text-white dark:hover:bg-[#b0956e]"
+                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Contact
                 </a>
