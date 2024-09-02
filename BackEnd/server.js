@@ -3,7 +3,6 @@ const mongoose = require("./Config/config"); // استيراد إعدادات ا
 require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT;
-
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -24,6 +23,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+
 // استيراد الطرق
 const authRoutes = require("./Routes/authRoutes");
 
@@ -34,7 +34,6 @@ app.use("/api/auth", authRoutes);
 const contactRoutes = require('./Routes/contactRouter');
 
 app.use('/api/contact', contactRoutes);
-
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
