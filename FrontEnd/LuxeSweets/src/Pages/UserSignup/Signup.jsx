@@ -19,7 +19,6 @@ function Signup() {
   };
 
   const validatePassword = (password) => {
-    // شرط أن تكون كلمة المرور تحتوي على 8 أحرف على الأقل
     return password.length >= 8;
   };
 
@@ -46,13 +45,14 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post("/api/auth/signup", {
-        username,
-        email,
-        password,
-      });
-
-      document.cookie = `token=${response.data.token}; path=/`;
+      const response = await axios.post(
+        "http://localhost:1001/api/auth/signup",
+        {
+          name: username,
+          email,
+          password,
+        }
+      );
       navigate("/home");
     } catch (error) {
       setErrorMessage("Account creation failed. Please try again.");
@@ -61,33 +61,33 @@ function Signup() {
 
   return (
     <>
-      <section className="bg-[url('/src/assets/sweets-bg.jpg')] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center ">
+      <section className="bg-[url('/src/assets/sweets-bg.jpg')] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center">
         <Link to="/">
           <img
-            src="/src/assets/sweets-logo.png"
+            src="https://cdn.discordapp.com/attachments/1279794719647469711/1280110243552165941/Pink_Cute_Pudding_Dessert_Logo.png?ex=66d6e311&is=66d59191&hm=c7d8e14d3ac659e993d655efa3d9754bd137cd71b193bc558ab523d7ebb46d6d&"
             className="h-36 w-40 transition-transform duration-300 hover:scale-110"
             alt="Sweets Logo"
           />
         </Link>
-        <div className="w-full max-w-md p-8 bg-[#b0956e] bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg dark:border dark:bg-gray-800 dark:border-gray-700 mb-24 transition-shadow duration-300 hover:shadow-2xl">
-          <h1 className="text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl mb-6 text-center">
+        <div className="w-full max-w-md p-8 bg-[#f5f3f0] bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg mb-24 transition-shadow duration-300 hover:shadow-2xl">
+          <h1 className="text-2xl font-bold leading-tight tracking-tight text-[#5f4b3a] md:text-3xl mb-6 text-center">
             Create Account
           </h1>
           <form className="space-y-4 md:space-y-6" onSubmit={handleSignup}>
             <div>
               <label
                 htmlFor="username"
-                className="block mb-2 text-sm font-medium text-white"
+                className="block mb-2 text-sm font-medium text-[#5f4b3a]"
               >
                 Username
               </label>
               <div className="relative">
-                <FaUser className="absolute left-3 top-3 text-pink-800" />
+                <FaUser className="absolute left-3 top-3 text-[#a0785d]" />
                 <input
                   type="text"
                   name="username"
                   id="username"
-                  className="bg-pink-100 border border-pink-300 text-pink-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2.5"
+                  className="bg-white border border-[#a0785d] text-[#5f4b3a] text-sm rounded-lg focus:ring-[#a0785d] focus:border-[#a0785d] block w-full pl-10 p-2.5"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
@@ -97,18 +97,18 @@ function Signup() {
             <div>
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-white"
+                className="block mb-2 text-sm font-medium text-[#5f4b3a]"
               >
                 Email
               </label>
               <div className="relative">
-                <FaEnvelope className="absolute left-3 top-3 text-pink-800" />
+                <FaEnvelope className="absolute left-3 top-3 text-[#a0785d]" />
                 <input
                   type="email"
                   name="email"
                   id="email"
                   placeholder="name@gmail.com"
-                  className="bg-pink-100 border border-pink-300 text-pink-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2.5"
+                  className="bg-white border border-[#a0785d] text-[#5f4b3a] text-sm rounded-lg focus:ring-[#a0785d] focus:border-[#a0785d] block w-full pl-10 p-2.5"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -121,18 +121,18 @@ function Signup() {
             <div>
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-white"
+                className="block mb-2 text-sm font-medium text-[#5f4b3a]"
               >
                 Password
               </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-3 text-pink-800" />
+                <FaLock className="absolute left-3 top-3 text-[#a0785d]" />
                 <input
                   type="password"
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-pink-100 border border-pink-300 text-pink-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2.5"
+                  className="bg-white border border-[#a0785d] text-[#5f4b3a] text-sm rounded-lg focus:ring-[#a0785d] focus:border-[#a0785d] block w-full pl-10 p-2.5"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -144,19 +144,19 @@ function Signup() {
             </div>
             <div>
               <label
-                htmlFor="confirm-password"
-                className="block mb-2 text-sm font-medium text-white"
+                htmlFor="confirmPassword"
+                className="block mb-2 text-sm font-medium text-[#5f4b3a]"
               >
                 Confirm Password
               </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-3 text-pink-800" />
+                <FaLock className="absolute left-3 top-3 text-[#a0785d]" />
                 <input
                   type="password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   placeholder="••••••••"
-                  className="bg-pink-100 border border-pink-300 text-pink-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2.5"
+                  className="bg-white border border-[#a0785d] text-[#5f4b3a] text-sm rounded-lg focus:ring-[#a0785d] focus:border-[#a0785d] block w-full pl-10 p-2.5"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -164,23 +164,21 @@ function Signup() {
               </div>
             </div>
             {errorMessage && (
-              <p className="text-red-500 text-sm">{errorMessage}</p>
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
             )}
-
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-pink-400 to-pink-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-pink-300"
+              className="w-full bg-[#a0785d] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Sign Up
+              Sign up
             </button>
-
-            <p className="text-sm font-normal text-white flex justify-center">
+            <p className="text-sm font-light text-gray-500">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="font-medium text-pink-600 hover:underline ml-2"
+                className="font-medium text-[#a0785d] hover:underline"
               >
-                Log in here
+                Login here
               </Link>
             </p>
           </form>
