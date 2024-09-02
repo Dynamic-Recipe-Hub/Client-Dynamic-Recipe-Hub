@@ -1,4 +1,4 @@
-const Contacts = require("../Models/usersModels");
+const Contacts = require("../Models/contactModels");
 
 
 exports.Contact = async (req, res) => {
