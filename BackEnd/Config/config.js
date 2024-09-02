@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const uri = process.env.DATABASE;
+const url = process.env.DATABASE;
 
-mongoose.connect(uri);
+mongoose.connect(url);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
