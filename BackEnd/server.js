@@ -3,15 +3,19 @@ const mongoose = require("./Config/config"); // استيراد إعدادات ا
 require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT;
+
 app.use(express.json());
 const cors = require("cors");
-// require("./Models/UserModels");
+const cookieParser = require("cookie-parser");
 
+app.use(cookieParser());
+
+// استبدل بمسار النطاق المسموح به
 app.use(
   cors({
-    origin: "http://localhost:1000", // استبدل بعنوان النطاق المسموح به
-    methods: ["GET", "POST", "PUT", "DELETE"], // السماح بطرق معينة
-    allowedHeaders: ["Content-Type", "Authorization"], // السماح برؤوس معينة
+    origin: "http://localhost:1000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
@@ -20,10 +24,17 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// استيراد الطرق
+const authRoutes = require("./Routes/authRoutes");
+
+// استخدام الطرق
+app.use("/api/auth", authRoutes);
+
 
 const contactRoutes = require('./Routes/contactRouter');
 
 app.use('/api/contact', contactRoutes);
+
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
