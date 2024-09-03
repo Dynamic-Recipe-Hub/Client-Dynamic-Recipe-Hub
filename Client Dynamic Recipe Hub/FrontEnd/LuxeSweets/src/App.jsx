@@ -12,9 +12,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Catalogdishes />
-        <Catalogrecipes />
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
