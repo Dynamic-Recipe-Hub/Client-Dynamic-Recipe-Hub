@@ -49,11 +49,11 @@ function Signup() {
         "http://localhost:1001/api/auth/signup",
         {
           name: username,
-          email,
-          password,
-        }
+          email: email,
+          password: password,
+        },{ withCredentials: true }
       );
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setErrorMessage("Account creation failed. Please try again.");
     }

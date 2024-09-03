@@ -42,7 +42,7 @@ function Login() {
       );
 
       if (response.status === 200) {
-        navigate("/home");
+        navigate("/");
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
