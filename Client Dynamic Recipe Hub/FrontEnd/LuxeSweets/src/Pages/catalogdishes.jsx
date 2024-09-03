@@ -1,48 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const desserts = [
-  { name: "Decadent Raspberry and Cream Cake", image: "path_to_image1.jpg" },
-  { name: "Triple Chocolate Mousse Cake", image: "path_to_image2.jpg" },
-  { name: "Cranberry Curd Layered Sponge Cake", image: "path_to_image3.jpg" },
-  { name: "Orange and Lemon Curd Tartlets", image: "path_to_image4.jpg" },
-  { name: "Creamy Chocolate Nutella Fudge Cake", image: "path_to_image5.jpg" },
-  { name: "Homemade Mixed Berries Wedding Cake", image: "path_to_image6.jpg" },
-  { name: "Black Forest Birthday Cake", image: "path_to_image7.jpg" },
-  { name: "Double Thick Layered Sponge Cake", image: "path_to_image8.jpg" },
-  { name: "Lemon Cake with Chocolate Ganache", image: "path_to_image9.jpg" },
-  { name: "Cranberry Macaron Ice Cream Cake", image: "path_to_image10.jpg" },
-  { name: "No Bake Cheesecake", image: "path_to_image11.jpg" },
-  { name: "Almond Cinnamon Sponge Cake", image: "path_to_image12.jpg" },
-];
-
+import { useNavigate } from "react-router-dom";
 const Catalogdishes = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const [desserts, setDesserts] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentDesserts = desserts.slice(indexOfFirstItem, indexOfLastItem);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:1001/api/records");
+      const data = response.data;
+      console.log(data);
+      setDesserts(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // Click handler to store the clicked dessert in sessionStorage
+  const handleCardClick = (dessert) => {
+    sessionStorage.setItem("selectedDessert", JSON.stringify(dessert));
+    navigate(`/DishDetail`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2">Desserts Recipes</h2>
-        <p className="text-gray-600">48 Results</p>
+        <h2 className="text-3xl font-bold mb-2">Desserts Dishies</h2>
+        <p className="text-gray-600">{desserts.length}</p>
         <select className="mt-2 p-2 border rounded">
-          <option>Sort</option>
+          {desserts.map((dessert, index) => (
+            <option key={index}>{dessert.name}</option>
+          ))}
         </select>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {currentDesserts.map((dessert, index) => (
+        {desserts.map((dessert, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-md overflow-hidden"
+            className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            onClick={() => handleCardClick(dessert)}
           >
             <img
-              src={dessert.image}
+              src={dessert.images}
               alt={dessert.name}
               className="w-full h-48 object-cover"
             />
@@ -53,22 +57,7 @@ const Catalogdishes = () => {
         ))}
       </div>
 
-      <div className="mt-8 flex justify-center">
-        {Array.from(
-          { length: Math.ceil(desserts.length / itemsPerPage) },
-          (_, i) => (
-            <button
-              key={i}
-              onClick={() => paginate(i + 1)}
-              className={`mx-1 px-3 py-1 rounded ${
-                currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          )
-        )}
-      </div>
+      <div className="mt-8 flex justify-center"></div>
     </div>
   );
 };

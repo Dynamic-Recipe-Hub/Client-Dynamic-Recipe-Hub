@@ -6,7 +6,8 @@ const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const catalogdish = require("./Routes/catalogdishroutes");
+const catalogrecipe = require("./Routes/catalogreciperoutes");
 app.use(cookieParser());
 
 // استبدل بمسار النطاق المسموح به
@@ -23,17 +24,16 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-
 // استيراد الطرق
 const authRoutes = require("./Routes/authRoutes");
 
 // استخدام الطرق
 app.use("/api/auth", authRoutes);
+app.use("/api/records", catalogdish);
+app.use("/api/recipe", catalogrecipe);
+const contactRoutes = require("./Routes/contactRouter");
 
-
-const contactRoutes = require('./Routes/contactRouter');
-
-app.use('/api/contact', contactRoutes);
+app.use("/api/contact", contactRoutes);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
