@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { FaEnvelope, FaLock, FaUser, FaGoogle } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -51,12 +53,53 @@ function Signup() {
           name: username,
           email: email,
           password: password,
-        },{ withCredentials: true }
+        },
+        { withCredentials: true }
       );
       navigate("/");
     } catch (error) {
       setErrorMessage("Account creation failed. Please try again.");
     }
+  };
+
+  const handleGoogleSignupSuccess = async (response) => {
+    try {
+      const idToken = response.credential;
+      const res = await axios.post(
+        "http://localhost:1001/api/auth/googleSignup",
+        { id_token: idToken },
+        { withCredentials: true }
+      );
+
+      if (res.data.token) {
+        Swal.fire({
+          icon: "success",
+          title: "Signup Successful",
+          text: "You have successfully signed up with Google!",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/");
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Signup Error",
+        text:
+          error.response?.data?.message ||
+          "There was an error during Google signup. Please try again.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
+  const handleGoogleSignupError = (error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Signup Error",
+      text: "There was an error during Google signup. Please try again.",
+      confirmButtonText: "OK",
+    });
   };
 
   return (
@@ -181,6 +224,16 @@ function Signup() {
                 Login here
               </Link>
             </p>
+            <div className="w-full mt-4">
+              <GoogleLogin
+                onSuccess={handleGoogleSignupSuccess}
+                onError={handleGoogleSignupError}
+                logo="Google"
+                buttonText="Sign up with Google"
+                className="w-full bg-[#4285F4] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center"
+                icon={<FaGoogle className="mr-2" />}
+              />
+            </div>
           </form>
         </div>
       </section>

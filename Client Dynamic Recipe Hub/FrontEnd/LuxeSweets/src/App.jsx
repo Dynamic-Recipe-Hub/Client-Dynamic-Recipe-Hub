@@ -5,18 +5,26 @@ import Home from "./Pages/Home/Home";
 import Signup from "./Pages/UserSignup/Signup";
 import ContactUs from "./Pages/ContactUs";
 import Catalogrecipes from "./Pages/catalogrecipes";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/Catalogrecipes" element={<Catalogrecipes />} />
-        </Routes>
-      </BrowserRouter>
+      <GoogleOAuthProvider
+        clientId={
+          "411660852235-gqds17af2oqbq127uck7c6g5o4g8tvmg.apps.googleusercontent.com"
+        }
+      >
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            <Route path="/Catalogrecipes" element={<Catalogrecipes />} />
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </>
   );
 }
