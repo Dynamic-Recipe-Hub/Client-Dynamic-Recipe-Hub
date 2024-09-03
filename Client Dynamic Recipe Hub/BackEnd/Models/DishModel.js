@@ -45,6 +45,10 @@ const dishSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  show: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Compile and export the Dish model
