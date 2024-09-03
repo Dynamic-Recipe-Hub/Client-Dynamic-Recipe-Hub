@@ -10,7 +10,7 @@ function Header() {
   
   return (
     <>
-      <nav className="bg-[#f5f3f0] border-b-2 border-[#a0785d] shadow-lg">
+      <nav className="bg-[#f5f3f0] border-b-2 border-[#a0785d] shadow-lg sticky top-0 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="https://flowbite.com/"
