@@ -10,6 +10,16 @@ exports.signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10); // تشفير كلمة المرور
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
+    const token = jwt.sign({ id: newUser._id }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    // تخزين التوكن في الكوكيز
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1 * 60 * 60 * 1000,
+    });
     res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
     res.status(500).json({ message: "Failed to create user", error });
@@ -30,7 +40,11 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
 
-    res.cookie("jwt", token, { httpOnly: true, secure: false }); // تعيين التوكن في الكوكي
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1 * 60 * 60 * 1000,
+    }); // تعيين التوكن في الكوكي
 
     res.status(200).json({ message: "Login successful!" });
   } catch (error) {
