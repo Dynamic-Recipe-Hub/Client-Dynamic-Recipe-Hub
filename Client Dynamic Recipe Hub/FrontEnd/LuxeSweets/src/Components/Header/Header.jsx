@@ -7,7 +7,7 @@ function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
+
   return (
     <>
       <nav className="bg-[#f5f3f0] border-b-2 border-[#a0785d] shadow-lg sticky top-0 z-50">
@@ -22,11 +22,12 @@ function Header() {
               alt="Flowbite Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-[#5f4b3a]">
-              Flowbite
+              Sweets
             </span>
           </a>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Link to="/signup"
+            <Link
+              to="/signup"
               type="button"
               className="text-white bg-[#a0785d] hover:bg-[#8f6c49] focus:ring-4 focus:outline-none focus:ring-[#7a5c3f] font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out transform hover:scale-105"
             >
@@ -73,12 +74,12 @@ function Header() {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/AboutUs"
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
                 <a
