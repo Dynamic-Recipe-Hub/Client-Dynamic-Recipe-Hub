@@ -75,7 +75,8 @@ function Header() {
               </li>
               <li>
                 <Link
-                  to="/aboutus"
+                  to="/AboutUs"
+
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   About

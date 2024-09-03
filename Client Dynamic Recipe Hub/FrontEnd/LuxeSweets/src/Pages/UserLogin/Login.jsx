@@ -42,9 +42,9 @@ function Login() {
         { withCredentials: true }
       );
 
-      if (res.data.token) {
-        Cookies.set("token", res.data.token, { expires: 1 });
-      }
+      // if (res.data.token) {
+      //   Cookies.set("token", res.data.token, { expires: 1 });
+      // }
 
       Swal.fire({
         icon: "success",

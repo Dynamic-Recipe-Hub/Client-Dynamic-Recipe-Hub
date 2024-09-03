@@ -87,6 +87,11 @@ exports.googleSignup = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
       expiresIn: "1d",
     });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1 * 60 * 60 * 1000,
+    });
 
     res
       .status(200)
