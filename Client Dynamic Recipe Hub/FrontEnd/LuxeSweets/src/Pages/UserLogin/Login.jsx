@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -9,35 +12,13 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password) => {
-    return password.length >= 8;
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (!validateEmail(email)) {
-      setErrorMessage("Please enter a valid email address.");
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setErrorMessage("Password must be at least 8 characters long.");
-      return;
-    }
 
     try {
       const response = await axios.post(
         "http://localhost:1001/api/auth/login",
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true }
       );
 
@@ -48,8 +29,41 @@ function Login() {
       if (error.response && error.response.data.message) {
         setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage("Login failed. Please check your credentials.");
+        setErrorMessage("Login failed. Please try again.");
       }
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:1001/api/auth/Googellogin",
+        { id_token: response.credential },
+        { withCredentials: true }
+      );
+
+      if (res.data.token) {
+        Cookies.set("token", res.data.token, { expires: 1 });
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You have successfully logged in with Google!",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/");
+      });
+    } catch (error) {
+      console.error("Google login error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Error",
+        text:
+          error.response?.data?.message ||
+          "There was an error during Google login. Please try again.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -65,7 +79,7 @@ function Login() {
         </Link>
         <div className="w-full max-w-md p-8 bg-[#f5f3f0] bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg mb-24 transition-shadow duration-300 hover:shadow-2xl">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-[#5f4b3a] md:text-3xl mb-6 text-center">
-            Log In
+            Login
           </h1>
           <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
             <div>
@@ -113,33 +127,29 @@ function Login() {
             {errorMessage && (
               <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
             )}
-
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#a0785d] to-[#b0956e] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-[#a0785d]"
+              className="w-full bg-[#a0785d] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Log In
+              Login
             </button>
-
-            <div className="flex items-center justify-center mt-4">
-              <button
-                type="button"
-                className="w-full flex items-center justify-center bg-white text-[#a0785d] font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-gray-100"
-              >
-                <FaGoogle className="mr-2" />
-                Log In with Google
-              </button>
-            </div>
-
-            <p className="text-sm font-light text-gray-500 flex justify-center mt-4">
-              Don't have an account?{" "}
+            <p className="text-sm font-light text-gray-500">
+              Don’t have an account yet?{" "}
               <Link
                 to="/signup"
-                className="font-medium text-[#a0785d] hover:underline ml-2"
+                className="font-medium text-[#a0785d] hover:underline"
               >
                 Sign up here
               </Link>
             </p>
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={(error) => console.error("Google login error:", error)}
+              className="w-full mt-4 flex items-center justify-center gap-2 bg-[#4285F4] text-white font-medium rounded-lg text-sm px-5 py-2.5"
+            >
+              <FaGoogle className="text-xl" />
+              Sign in with Google
+            </GoogleLogin>
           </form>
         </div>
       </section>

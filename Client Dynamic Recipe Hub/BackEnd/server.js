@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 // استيراد الطرق
-const authRoutes = require("./Routes/authRoutes");
+const authRoutes = require("./Routes/userRoutes");
 
 // استخدام الطرق
 app.use("/api/auth", authRoutes);
