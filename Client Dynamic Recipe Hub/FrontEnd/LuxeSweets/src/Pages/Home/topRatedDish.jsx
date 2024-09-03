@@ -33,6 +33,7 @@ const TopRatedDish = () => {
     rating: 5
   };
 
+  
   const sides = [
     { title: "Beef Tenderloin", description: "Pan-seared with rosemary", image: "https://cook.fnr.sndimg.com/content/dam/images/cook/fullset/2013/6/25/0/CC_kelsey-nixon-smores-bars-recipe-2_s4x3.jpg.rend.hgtvcom.616.462.suffix/1372183746016.jpeg", rating: 4 },
     { title: "Vegetable Lasagna", description: "Layered with ricotta and spinach", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz9soPnOwiJc0Ylaa1Mkhu_GinaeeH7hbveLZyfQafXRJKZtCQv6TDVwJ_C3tkW0o-_Lo&usqp=CAU", rating: 3 },
@@ -43,7 +44,7 @@ const TopRatedDish = () => {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-[#e2ceb1] bg-opacity-10">
+    <div className="container mx-auto px-4 py-20 bg-[#e2ceb1] bg-opacity-10">
       <div className="max-w-6xl mx-auto">
         {/* Section for the top-rated dish */}
         <div className="mb-12">
