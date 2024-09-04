@@ -19,8 +19,8 @@ const paymentSchema = new mongoose.Schema(
     currency: { type: String, required: true },
     status: { type: String, required: true },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
+
       default: null, // يمكن أن تكون null بشكل افتراضي
     },
     productId: {

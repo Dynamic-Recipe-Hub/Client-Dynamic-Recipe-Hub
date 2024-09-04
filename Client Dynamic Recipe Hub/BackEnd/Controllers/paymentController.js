@@ -65,7 +65,7 @@ const createPaymentIntent = async (req, res) => {
       amount,
       currency,
       status: paymentIntent.status,
-      userId: userId ? mongoose.Types.ObjectId(userId) : null,
+      userId: userId ,
       productId: productId ? mongoose.Types.ObjectId(productId) : null,
       fullName,
       email,
