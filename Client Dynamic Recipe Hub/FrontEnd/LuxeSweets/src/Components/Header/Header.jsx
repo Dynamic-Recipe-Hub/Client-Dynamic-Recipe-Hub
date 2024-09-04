@@ -1,19 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 function Header() {
+  const { data, loading, error } = useFetch(
+    "http://localhost:1001/api/auth/getAllUsers"
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUser, setIsUser] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const users = data ? data.Users : [];
+  const user = users.length > 0 ? users[0] : null;
+
+  useEffect(() => {
+    // تحقق من وجود المستخدم بناءً على أي شرط تراه مناسبًا
+    if (user && user._id) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  }, [user]);
+
   return (
     <>
       <nav className="bg-[#f5f3f0] border-b-2 border-[#a0785d] shadow-lg sticky top-0 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <Link to="/"
-            href="https://flowbite.com/"
+          <Link
+            to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -26,38 +48,74 @@ function Header() {
             </span>
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Link
-              to="/signup"
-              type="button"
-              className="text-white bg-[#a0785d] hover:bg-[#8f6c49] focus:ring-4 focus:outline-none focus:ring-[#7a5c3f] font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Sign Up
-            </Link>
-            <button
-              onClick={toggleMenu}
-              type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-[#8f6c49] focus:outline-none focus:ring-2 focus:ring-[#7a5c3f]"
-              aria-controls="navbar-cta"
-              aria-expanded={isMenuOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-5 h-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M1 1h15M1 7h15M1 13h15"
+            {isUser ? (
+              <div className="relative">
+                <img
+                  className="h-10 cursor-pointer"
+                  src={user.image}
+                  alt="Profile"
+                  onClick={toggleDropdown}
                 />
-              </svg>
-            </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-[#a0785d] rounded-lg shadow-lg overflow-hidden">
+                  <ul className="py-2">
+                    <li>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-[#5f4b3a] hover:bg-[#a0785d] hover:text-white transition duration-300 rounded-lg"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/logout"
+                        className="block px-4 py-2 text-[#5f4b3a] hover:bg-[#a0785d] hover:text-white transition duration-300 rounded-lg"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/signup"
+                type="button"
+                className="text-white bg-[#a0785d] hover:bg-[#8f6c49] focus:ring-4 focus:outline-none focus:ring-[#7a5c3f] font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Sign Up
+              </Link>
+            )}
           </div>
+          <button
+            onClick={toggleMenu}
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-[#8f6c49] focus:outline-none focus:ring-2 focus:ring-[#7a5c3f]"
+            aria-controls="navbar-cta"
+            aria-expanded={isMenuOpen}
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
           <div
             className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
               isMenuOpen ? "block" : "hidden"
@@ -76,7 +134,6 @@ function Header() {
               <li>
                 <Link
                   to="/AboutUs"
-
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   About
@@ -91,8 +148,8 @@ function Header() {
                 </a>
               </li>
               <li>
-                <Link to="contactUs"
-                  href="#"
+                <Link
+                  to="contactUs"
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Get in Touch

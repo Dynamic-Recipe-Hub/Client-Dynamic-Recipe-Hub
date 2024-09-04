@@ -8,6 +8,7 @@ import Catalogrecipes from "./Pages/catalogrecipes";
 import Catalogdishes from "./Pages/catalogdishes";
 import Recipesdetail from "./Pages/recipesdetail";
 import DishDetail from "./Pages/dishdetails";
+import ProfilePage from "./Pages/Profile/ProfilePage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AboutUs from "./Pages/Aboutus";
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/Catalogdishes" element={<Catalogdishes />} />
           <Route path="/DishDetail" element={<DishDetail />} />
           <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/Profile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
 </GoogleOAuthProvider>

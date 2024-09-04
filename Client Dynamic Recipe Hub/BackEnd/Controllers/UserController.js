@@ -129,3 +129,47 @@ exports.googleLogin = async (req, res) => {
     res.status(500).json({ message: "Google login failed", error });
   }
 };
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const Users = await User.find({ isActive: true, _id: req.user.id });
+
+    res.status(200).json({ Users });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  const { userId } = req.params;
+  const { name, newPassword, image } = req.body;
+
+  try {
+    // Find user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user details
+    if (name) user.name = name;
+    if (image) user.image = image;
+
+    // Hash new password if provided
+    if (newPassword) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = hashedPassword;
+    }
+
+    // Save updated user
+    await user.save();
+
+    res.status(200).json({ message: 'Profile updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating profile', error });
+  }
+};
