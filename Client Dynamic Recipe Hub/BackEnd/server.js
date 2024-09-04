@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("./Config/config"); // استيراد إعدادات الاتصال بقاعدة البيانات
 require("dotenv").config();
+const Stripe = require("stripe");
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
