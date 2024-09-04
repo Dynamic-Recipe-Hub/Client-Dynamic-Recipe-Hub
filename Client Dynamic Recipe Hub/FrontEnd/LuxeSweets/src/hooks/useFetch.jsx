@@ -9,7 +9,10 @@ const useFetch = (url) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          // إرسال الكوكيز مع الطلبات
+          credentials: 'include',
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
