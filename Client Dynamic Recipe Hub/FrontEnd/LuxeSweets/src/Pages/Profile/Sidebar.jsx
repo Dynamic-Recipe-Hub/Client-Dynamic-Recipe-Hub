@@ -34,12 +34,6 @@ function Sidebar() {
             <ul className="py-4">
               <li>
                 <button className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200 w-full">
-                  <MessageSquare className="mr-3" size={20} />
-                  Comments
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200 w-full">
                   <Star className="mr-3" size={20} />
                   Favorites
                 </button>

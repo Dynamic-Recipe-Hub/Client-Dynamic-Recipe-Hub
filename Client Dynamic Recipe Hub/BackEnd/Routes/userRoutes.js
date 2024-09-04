@@ -15,5 +15,6 @@ router.post("/pay", paymentController.createPaymentIntent);
 
 router.get("/getAllUsers", verifyToken,userController.getAllUsers);
 router.put("/updateProfile/:userId", userController.updateProfile);
+router.post("/logout", userController.logout);
 
 module.exports = router;

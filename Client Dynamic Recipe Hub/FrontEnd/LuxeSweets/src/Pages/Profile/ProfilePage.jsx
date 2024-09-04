@@ -117,7 +117,7 @@ const ProfilePage = () => {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-gray-100">
+      <div className="flex min-h-screen bg-[#F5F3F0]">
         <Sidebar />
         <div className="flex-1 p-6">
           <div className="bg-white shadow-lg rounded-lg p-6">
@@ -263,9 +263,9 @@ const ProfilePage = () => {
                       <button
                         type="button"
                         onClick={handleResetPassword}
-                        className="text-red-500 text-sm hover:underline"
+                        className="bg-[#ffc7a1] hover:bg-blue-600 text-white text-xs font-medium py-1 px-3 rounded-md shadow-sm transition ease-in-out duration-300 transform hover:scale-100"
                       >
-                        Reset
+                        Reset Changes
                       </button>
                     )}
                   </div>
@@ -274,7 +274,7 @@ const ProfilePage = () => {
                     <button
                       type="button"
                       onClick={handleUpdateProfile}
-                      className="bg-[#1A318C] text-white px-4 py-2 rounded shadow hover:bg-[#182D7E]"
+                      className="bg-[#A0785D] text-white px-4 py-2 rounded shadow hover:bg-[#ac8368]"
                     >
                       Save Changes
                     </button>

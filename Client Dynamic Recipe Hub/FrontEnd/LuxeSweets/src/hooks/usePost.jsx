@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
 const usePost = (url) => {
   const [data, setData] = useState(null);
@@ -11,8 +11,9 @@ const usePost = (url) => {
     try {
       const response = await axios.post(url, payload, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
       setData(response.data);
     } catch (err) {
