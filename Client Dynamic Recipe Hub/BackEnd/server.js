@@ -1,16 +1,14 @@
 const express = require("express");
-const mongoose = require("./Config/config"); // استيراد إعدادات الاتصال بقاعدة البيانات
+const mongoose = require("./Config/config");
 require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const catalogdish = require("./Routes/catalogdishroutes");
-const catalogrecipe = require("./Routes/catalogreciperoutes");
+
 app.use(cookieParser());
 
-// استبدل بمسار النطاق المسموح به
 app.use(
   cors({
     origin: "http://localhost:1000",
@@ -24,18 +22,22 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// استيراد الطرق
+// Import routes
 const authRoutes = require("./Routes/authRoutes");
+const catalogdish = require("./Routes/catalogdishroutes");
+const catalogrecipe = require("./Routes/catalogreciperoutes");
+const reviewrecipe = require("./Routes/reviewreciperoutes");
+const contactRoutes = require("./Routes/contactRouter");
+const contactdish = require("./Routes/reviewdishroutes");
 
-// استخدام الطرق
+// Use routes
 app.use("/api/auth", authRoutes);
 app.use("/api/records", catalogdish);
 app.use("/api/recipe", catalogrecipe);
-const contactRoutes = require("./Routes/contactRouter");
-
+app.use("/api/recipe", reviewrecipe); // Changed this line
+app.use("/api/dish", contactdish); // Changed this line
 app.use("/api/contact", contactRoutes);
 
-// بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

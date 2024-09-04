@@ -22,7 +22,7 @@ const dishSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false,
-  }, // حقل الحذف الناعم
+  }, // Soft delete field
   images: [
     {
       type: String,
@@ -40,6 +40,41 @@ const dishSchema = new mongoose.Schema({
   cuisine: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cuisine",
+  },
+  ratings: {
+    type: [
+      {
+        likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        comments: [
+          {
+            text: String,
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            createdAt: { type: Date, default: Date.now },
+            replies: [
+              {
+                text: { type: String, default: "" },
+                user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+                createdAt: { type: Date, default: Date.now },
+              },
+            ],
+          },
+        ],
+        reportFlag: {
+          isReported: { type: Boolean, default: false },
+          reports: [
+            {
+              reason: {
+                type: String,
+                enum: ["inappropriate", "offensive", "spam", "other"],
+              },
+              user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+              createdAt: { type: Date, default: Date.now },
+            },
+          ],
+        },
+      },
+    ],
+    default: [{}], // Initialize with an empty object
   },
   orderCount: {
     type: Number,

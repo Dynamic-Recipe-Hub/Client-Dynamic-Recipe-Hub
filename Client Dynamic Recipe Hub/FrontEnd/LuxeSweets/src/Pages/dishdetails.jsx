@@ -8,8 +8,7 @@ import {
   FaFlag,
   FaReply,
 } from "react-icons/fa";
-
-const MySwal = withReactContent(Swal);
+import axios from "axios";
 
 const DishDetail = () => {
   const [dessert, setDessert] = useState(null);
@@ -18,26 +17,27 @@ const DishDetail = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState(null);
-
+  const MySwal = withReactContent(Swal);
   useEffect(() => {
-    const dessertData = JSON.parse(sessionStorage.getItem("selectedDessert"));
-    if (dessertData) {
-      setDessert(dessertData);
-      setLikes(dessertData.likes || 0);
-      setIsLiked(dessertData.userHasLiked || false);
-      setComments(dessertData.comments || []);
+    const storedDish = JSON.parse(sessionStorage.getItem("selectedDessert"));
+    if (storedDish) {
+      setDessert(storedDish);
+      // استخدام طول المصفوفة ratings[0].likes إذا كانت موجودة، وإلا استخدام 0
+      setLikes(storedDish.ratings[0]?.likes?.length || 0);
+      // هنا يمكنك إضافة منطق لتحديد ما إذا كان المستخدم الحالي قد أعجب بالوصفة
+      setIsLiked(false); // يجب تحديث هذا بناءً على حالة إعجاب المستخدم الحالي
+      setComments(storedDish.ratings[0]?.comments || []);
     }
   }, []);
-
-  const handleLike = () => {
-    if (!isLiked) {
-      setLikes(likes + 1);
-      setIsLiked(true);
-      // Update like on the server
-    } else {
-      setLikes(likes - 1);
-      setIsLiked(false);
-      // Update unlike on the server
+  const handleLike = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:1001/api/dish/${dessert._id}/like`
+      );
+      setLikes(response.data.likes);
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("Failed to update like:", error);
     }
   };
 
@@ -46,8 +46,9 @@ const DishDetail = () => {
       title: "Report this dish",
       input: "select",
       inputOptions: {
-        inappropriateContent: "Inappropriate Content",
-        incorrectInfo: "Incorrect Information",
+        inappropriate: "Inappropriate",
+        offensive: "Offensive",
+        spam: "Spam",
         other: "Other",
       },
       inputPlaceholder: "Select a reason",
@@ -58,12 +59,19 @@ const DishDetail = () => {
         if (!reason) {
           Swal.showValidationMessage("Please select a reason for reporting");
         } else {
-          return new Promise((resolve) => {
-            // Here you would typically send the report to your server
-            setTimeout(() => {
-              resolve();
-            }, 2000); // Simulating server delay
-          });
+          return axios
+            .put(`http://localhost:1001/api/dish/${dessert._id}/report`, {
+              reason,
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                throw new Error(response.statusText);
+              }
+              return response.data;
+            })
+            .catch((error) => {
+              Swal.showValidationMessage(`Request failed: ${error}`);
+            });
         }
       },
       allowOutsideClick: () => !Swal.isLoading(),
@@ -77,23 +85,25 @@ const DishDetail = () => {
       }
     });
   };
-
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (newComment.trim()) {
-      const comment = {
-        id: Date.now(),
-        text: newComment,
-        replies: [],
-        parentId: replyTo,
-      };
-      setComments([...comments, comment]);
-      setNewComment("");
-      setReplyTo(null);
-      // Here you would typically send this comment to your backend
+      try {
+        const response = await axios.put(
+          `http://localhost:1001/api/dish/${dessert._id}/comment`,
+          {
+            text: newComment,
+            parentId: replyTo,
+          }
+        );
+        setComments(response.data);
+        setNewComment("");
+        setReplyTo(null);
+      } catch (error) {
+        console.error("Failed to post comment:", error);
+      }
     }
   };
-
   const handleReply = (commentId) => {
     setReplyTo(commentId);
   };
