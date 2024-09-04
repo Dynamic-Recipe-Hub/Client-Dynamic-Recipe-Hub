@@ -19,21 +19,22 @@ function App() {
           "411660852235-gqds17af2oqbq127uck7c6g5o4g8tvmg.apps.googleusercontent.com"
         }
       >
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
-            <Route path="/Catalogrecipes" element={<Catalogrecipes />} />
-            <Route path="/Recipesdetail" element={<Recipesdetail />} />
-            <Route path="/Catalogdishes" element={<Catalogdishes />} />
-            <Route path="/DishDetail" element={<DishDetail />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/PaymentComponent" element={<PaymentComponent />} />
-          </Routes>
-        </BrowserRouter>
-      </GoogleOAuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/Catalogrecipes" element={<Catalogrecipes />} />
+          <Route path="/Recipesdetail" element={<Recipesdetail />} />
+          <Route path="/Catalogdishes" element={<Catalogdishes />} />
+          <Route path="/DishDetail" element={<DishDetail />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+           <Route path="/PaymentComponent" element={<PaymentComponent />} />
+        </Routes>
+      </BrowserRouter>
+</GoogleOAuthProvider>
+
     </>
   );
 }
