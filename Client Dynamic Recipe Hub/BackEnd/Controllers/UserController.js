@@ -173,3 +173,12 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: 'Error updating profile', error });
   }
 };
+
+exports.logout = (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    secure: false,
+    maxAge: 0,
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};

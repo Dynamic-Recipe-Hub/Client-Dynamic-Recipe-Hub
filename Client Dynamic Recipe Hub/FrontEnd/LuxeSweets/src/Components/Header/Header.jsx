@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import usePost from "../../hooks/usePost"; // تأكد من استيراد الكاستم هوك
 
 function Header() {
+  const navigate = useNavigate();
   const { data, loading, error } = useFetch(
     "http://localhost:1001/api/auth/getAllUsers"
   );
+  const { postData } = usePost("http://localhost:1001/api/auth/logout"); // استدعاء هوك تسجيل الخروج
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUser, setIsUser] = useState(false);
@@ -18,11 +22,21 @@ function Header() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleLogout = async () => {
+    console.log("Logout button clicked");
+    try {
+      await postData({});
+      console.log("Logout request sent successfully");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   const users = data ? data.Users : [];
   const user = users.length > 0 ? users[0] : null;
 
   useEffect(() => {
-    // تحقق من وجود المستخدم بناءً على أي شرط تراه مناسبًا
     if (user && user._id) {
       setIsUser(true);
     } else {
@@ -58,28 +72,44 @@ function Header() {
                 />
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-[#a0785d] rounded-lg shadow-lg overflow-hidden">
-                  <ul className="py-2">
-                    <li>
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-[#5f4b3a] hover:bg-[#a0785d] hover:text-white transition duration-300 rounded-lg"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/logout"
-                        className="block px-4 py-2 text-[#5f4b3a] hover:bg-[#a0785d] hover:text-white transition duration-300 rounded-lg"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                
+                    <ul className="">
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300 "
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300 "
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          Orders
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300 "
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          Favorites
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={handleLogout}
+                          className="block px-4 py-2 bg-red-600 text-white hover:bg-red-800 hover:text-white transition duration-300 w-full"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </div>
             ) : (
@@ -132,14 +162,6 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/AboutUs"
-                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
                 <a
                   href="#"
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
@@ -149,7 +171,16 @@ function Header() {
               </li>
               <li>
                 <Link
-                  to="contactUs"
+                  to="/AboutUs"
+                  className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
+                >
+                  Our Team
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/contactUs"
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Get in Touch
