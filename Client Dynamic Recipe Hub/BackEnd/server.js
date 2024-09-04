@@ -7,8 +7,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const catalogdish = require("./Routes/catalogdishroutes");
-const catalogrecipe = require("./Routes/catalogreciperoutes");
+
 app.use(cookieParser());
 
 // استبدل بمسار النطاق المسموح به
@@ -30,11 +29,19 @@ const authRoutes = require("./Routes/userRoutes");
 
 // استخدام الطرق
 app.use("/api/auth", authRoutes);
-app.use("/api/records", catalogdish);
-app.use("/api/recipe", catalogrecipe);
 const contactRoutes = require("./Routes/contactRouter");
 
 app.use("/api/contact", contactRoutes);
+
+const reviewdish = require("./Routes/reviewdishroutes");
+app.use("/api/dish", reviewdish); // Changed this line
+
+const catalogdish = require("./Routes/catalogdishroutes");
+const catalogrecipe = require("./Routes/catalogreciperoutes");
+const reviewrecipe = require("./Routes/reviewreciperoutes");
+app.use("/api/records", catalogdish);
+app.use("/api/recipe", catalogrecipe);
+app.use("/api/recipe", reviewrecipe);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {

@@ -41,23 +41,42 @@ const recipeSchema = new mongoose.Schema({
       type: String,
     },
   ],
-  ratings: [
-    {
-      rating: {
-        type: Number,
-        default: null,
+  ratings: {
+    type: [
+      {
+        likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        comments: [
+          {
+            text: String,
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            createdAt: { type: Date, default: Date.now },
+            replies: [
+              {
+                text: { type: String, default: "" },
+                user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+                createdAt: { type: Date, default: Date.now },
+              },
+            ],
+          },
+        ],
+        reportFlag: {
+          isReported: { type: Boolean, default: false },
+          reports: [
+            {
+              reason: {
+                type: String,
+                enum: ["inappropriate", "offensive", "spam", "other"],
+              },
+              user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+              createdAt: { type: Date, default: Date.now },
+            },
+          ],
+        },
       },
-      comment: {
-        type: String,
-        default: null,
-      },
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: null,
-      },
-    },
-  ],
+    ],
+    default: [{}], // Initialize with an empty object
+  },
+
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Chef",
@@ -79,10 +98,10 @@ const recipeSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  show: { 
-    type: Boolean, 
-    default: false 
-  }
+  show: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 recipeSchema.pre("save", function (next) {
