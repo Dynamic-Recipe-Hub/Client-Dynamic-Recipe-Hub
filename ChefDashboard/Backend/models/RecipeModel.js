@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// Define the schema for a Recipe
 const recipeSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -23,7 +22,7 @@ const recipeSchema = new mongoose.Schema({
     required: true,
   },
   cookingTime: {
-    type: Number, // in minutes
+    type: Number,
     required: true,
   },
   categories: [
@@ -34,7 +33,7 @@ const recipeSchema = new mongoose.Schema({
   ],
   cuisine: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cuisine',
+    ref: "Cuisine",
     required: true,
   },
   images: [
@@ -42,27 +41,46 @@ const recipeSchema = new mongoose.Schema({
       type: String,
     },
   ],
-  ratings: [
-    {
-      rating: {
-        type: Number,
-        default: null
+  ratings: {
+    type: [
+      {
+        likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        comments: [
+          {
+            text: String,
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            createdAt: { type: Date, default: Date.now },
+            replies: [
+              {
+                text: { type: String, default: "" },
+                user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+                createdAt: { type: Date, default: Date.now },
+              },
+            ],
+          },
+        ],
+        reportFlag: {
+          isReported: { type: Boolean, default: false },
+          reports: [
+            {
+              reason: {
+                type: String,
+                enum: ["inappropriate", "offensive", "spam", "other"],
+              },
+              user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+              createdAt: { type: Date, default: Date.now },
+            },
+          ],
+        },
       },
-      comment: {
-        type: String,
-        default: null
-      },
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: null
-      },
-    },
-  ],
+    ],
+    default: [{}], // Initialize with an empty object
+  },
+
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chef', // reference to the Chef who created the recipe
-    default: null
+    ref: "Chef",
+    default: null,
   },
   createdAt: {
     type: Date,
@@ -74,23 +92,23 @@ const recipeSchema = new mongoose.Schema({
   },
   isApproved: {
     type: Boolean,
-    default: false, 
+    default: false,
   },
   isDeleted: {
     type: Boolean,
-    default: false, 
+    default: false,
+  },
+  show: {
+    type: Boolean,
+    default: false,
   },
 });
 
-// Middleware to update the updatedAt field before saving
-recipeSchema.pre('save', function (next) {
+recipeSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-// Compile and export the Recipe model
-const Recipe = mongoose.model('Recipe', recipeSchema);
+const Recipe = mongoose.model("Recipe", recipeSchema);
 
-
-module.exports =  Recipe ;
-
+module.exports = Recipe;
