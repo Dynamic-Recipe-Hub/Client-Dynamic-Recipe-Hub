@@ -41,38 +41,41 @@ const dishSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cuisine",
   },
-  ratings: [
-    {
-      likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-      comments: [
-        {
-          text: String,
-          user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-          createdAt: { type: Date, default: Date.now },
-          replies: [
+  ratings: {
+    type: [
+      {
+        likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        comments: [
+          {
+            text: String,
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            createdAt: { type: Date, default: Date.now },
+            replies: [
+              {
+                text: { type: String, default: "" },
+                user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+                createdAt: { type: Date, default: Date.now },
+              },
+            ],
+          },
+        ],
+        reportFlag: {
+          isReported: { type: Boolean, default: false },
+          reports: [
             {
-              text: String,
+              reason: {
+                type: String,
+                enum: ["inappropriate", "offensive", "spam", "other"],
+              },
               user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
               createdAt: { type: Date, default: Date.now },
             },
           ],
         },
-      ],
-      reportFlag: {
-        isReported: { type: Boolean, default: false },
-        reports: [
-          {
-            reason: {
-              type: String,
-              enum: ["inappropriate", "offensive", "spam", "other"],
-            },
-            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-            createdAt: { type: Date, default: Date.now },
-          },
-        ],
       },
-    },
-  ],
+    ],
+    default: [{}], // Initialize with an empty object
+  },
   orderCount: {
     type: Number,
     default: 0,
