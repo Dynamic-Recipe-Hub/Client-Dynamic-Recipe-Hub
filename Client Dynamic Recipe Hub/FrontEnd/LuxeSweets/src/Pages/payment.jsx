@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import useFetch from "../hooks/useFetch";
-
+import axios from "axios";
 import {
   Elements,
   CardElement,
@@ -30,40 +30,42 @@ const CheckoutForm = () => {
   const users = data ? data.Users : [];
   const user = users.length > 0 ? users[0] : null;
 
-  // user ? console.log(user._id) : null;
+  const [total, setTotal] = useState(0);
+  const [Alldata, seAlldata] = useState({});
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
 
-  // Fixed amount in cents (e.g., $10.00)
-  const fixedAmount = 1000; // Fixed price in cents
-  const formattedAmount = (fixedAmount / 100).toFixed(2); // Format amount for display
+    if (cartData) {
+      const cart = JSON.parse(cartData);
+      seAlldata(cartData);
+      setTotal(cart.total);
+    }
+  }, []);
+
+  const fixedAmount = total; // Fixed price in cents
 
   const handleStripeSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
 
     try {
-      const response = await fetch("http://localhost:1001/api/auth/pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user._id, // Use null as default
-          productId: null, // Use null as default
-          fullName,
-          email,
-        }),
+      const response = await axios.post("http://localhost:1001/api/auth/pay", {
+        userId: user._id, // Use null as default
+        productId: null, // Use null as default
+        fullName,
+        email,
+        Prise: total,
+        Alldata: Alldata,
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const { error: backendError, clientSecret } = await response.json();
-
+    
+      const { error: backendError, clientSecret } = response.data;
+    
       if (backendError) {
         setError(backendError);
         setProcessing(false);
         return;
       }
-
+    
       const { error: stripeError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -74,7 +76,7 @@ const CheckoutForm = () => {
             },
           },
         });
-
+    
       if (stripeError) {
         setError(stripeError.message);
       } else if (paymentIntent.status === "succeeded") {
@@ -89,7 +91,7 @@ const CheckoutForm = () => {
           }
         });
       }
-
+    
       setProcessing(false);
     } catch (error) {
       console.error("Error:", error.message);
@@ -166,7 +168,7 @@ const CheckoutForm = () => {
           </div>
           <div className="mb-4 text-center">
             <p className="text-lg font-semibold text-gray-800">
-              Total Amount: ${formattedAmount}
+              Total Amount: ${fixedAmount}
             </p>{" "}
             {/* Fixed price display */}
           </div>

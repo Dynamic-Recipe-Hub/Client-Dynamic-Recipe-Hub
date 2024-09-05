@@ -63,7 +63,10 @@ function Header() {
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {isUser ? (
-              <div className="relative">
+              <div className="relative flex">
+                <Link to="/cart">
+                <i className="fa-solid fa-cart-shopping text-xl text-gray-700 hover:text-[#573e18] transition-transform duration-300 transform hover:scale-110 mt-2 mr-4"></i>
+                </Link>
                 <img
                   className="h-10 cursor-pointer"
                   src={user.image}
