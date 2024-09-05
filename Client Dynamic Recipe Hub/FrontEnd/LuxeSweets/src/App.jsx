@@ -12,6 +12,7 @@ import ProfilePage from "./Pages/Profile/ProfilePage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AboutUs from "./Pages/Aboutus";
 import PaymentComponent from "./Pages/payment";
+import AllChef from "./Pages/AllChef";
 function App() {
   return (
     <>
@@ -33,6 +34,7 @@ function App() {
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/PaymentComponent" element={<PaymentComponent />} />
           <Route path="/Profile" element={<ProfilePage />} />
+          <Route path="/AllChef" element={<AllChef />} />
         </Routes>
       </BrowserRouter>
 </GoogleOAuthProvider>
