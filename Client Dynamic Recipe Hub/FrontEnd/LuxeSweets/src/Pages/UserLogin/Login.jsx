@@ -69,15 +69,9 @@ function Login() {
 
   return (
     <>
-      <section className="bg-[url('/src/assets/sweets-bg.jpg')] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center">
-        <Link to="/">
-          <img
-            src="https://cdn.discordapp.com/attachments/1279794719647469711/1280110243552165941/Pink_Cute_Pudding_Dessert_Logo.png?ex=66d6e311&is=66d59191&hm=c7d8e14d3ac659e993d655efa3d9754bd137cd71b193bc558ab523d7ebb46d6d&"
-            className="h-36 w-40 transition-transform duration-300 hover:scale-110"
-            alt="Sweets Logo"
-          />
-        </Link>
-        <div className="w-full max-w-md p-8 bg-[#f5f3f0] bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg mb-24 transition-shadow duration-300 hover:shadow-2xl">
+      <section className="bg-[url('https://media.discordapp.net/attachments/1239307079853019276/1281226767297937522/WhatsApp_Image_2024-09-05_at_15.16.00.jpeg?ex=66daf2e9&is=66d9a169&hm=2076af14124e198d2716a339aaf830c5d791161fb607110194e63a44c4795c89&=&format=webp&width=1177&height=662')] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center">
+        <Link to="/"></Link>
+        <div className="w-full max-w-md p-8 bg-[#f5f3f0] mt-10 bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg mb-24 transition-shadow duration-300 hover:shadow-2xl">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-[#5f4b3a] md:text-3xl mb-6 text-center">
             Login
           </h1>
