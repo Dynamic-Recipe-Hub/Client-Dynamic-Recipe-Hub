@@ -147,4 +147,4 @@ const Catalogdishes = () => {
   );
 };
 
-export default CatalogDishes;
+export default Catalogdishes;
