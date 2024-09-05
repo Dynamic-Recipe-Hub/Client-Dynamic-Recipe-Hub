@@ -134,7 +134,7 @@ const ProfilePage = () => {
                 <div className="flex flex-col mb-6">
                   <div className="relative">
                     <img
-                      src={user.image || "https://via.placeholder.com/150"}
+                      src={user.image || "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"}
                       alt="Profile"
                       className="w-24 h-24 rounded-full border-4 border-[#b0956e] shadow-md mb-4 cursor-pointer"
                       onClick={() =>

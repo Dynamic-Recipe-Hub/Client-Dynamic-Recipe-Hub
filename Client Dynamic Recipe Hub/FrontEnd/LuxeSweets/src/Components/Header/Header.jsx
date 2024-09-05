@@ -68,13 +68,13 @@ function Header() {
                 <i className="fa-solid fa-cart-shopping text-xl text-gray-700 hover:text-[#573e18] transition-transform duration-300 transform hover:scale-110 mt-2 mr-4"></i>
                 </Link>
                 <img
-                  className="h-10 cursor-pointer"
-                  src={user.image}
+                  className="h-10 w-10 cursor-pointer rounded-full"
+                  src={user.image || "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"}
                   alt="Profile"
                   onClick={toggleDropdown}
                 />
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-[#a0785d] rounded-lg shadow-lg overflow-hidden">
+                  <div className="absolute right-[-15px] mt-2 top-12 w-48 bg-white border border-[#a0785d] rounded-lg shadow-lg overflow-hidden">
                     <ul className="">
                       <li>
                         <Link
