@@ -1,27 +1,32 @@
 const express = require('express');
 const http = require('http');
-const mongoose = require('mongoose'); // استيراد mongoose بشكل صحيح
-const cors = require('cors'); // استيراد cors
-const config = require('./config/config'); // استيراد ملف التكوين
+const mongoose = require('mongoose'); 
+const cors = require('cors'); 
+const config = require('./config/config'); 
+const cookieParser = require('cookie-parser');
+const session = require('express-session'); 
 const app = express();
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
 const CuisineRoutes = require('./routes/CuisineRoute');
 
 const DishRoute = require('./routes/DishRoute');
-
+const ChefRoute = require('./routes/ChefRoute');
 const recipeRoutes = require('./routes/RecipeRoute');
-
-
-
-
-
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+  }));
+  
 
 
 app.use('/api/cuisine', CuisineRoutes); 
 app.use('/api/Dish', DishRoute);
-
+app.use('/api/newChef', ChefRoute)
 
 app.use('/api/recipes', recipeRoutes);
 
