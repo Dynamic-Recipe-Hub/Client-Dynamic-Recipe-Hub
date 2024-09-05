@@ -23,6 +23,7 @@ const paymentSchema = new mongoose.Schema(
 
       default: null, // يمكن أن تكون null بشكل افتراضي
     },
+    acceptable: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

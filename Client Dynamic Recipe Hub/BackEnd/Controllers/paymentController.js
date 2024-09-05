@@ -70,6 +70,7 @@ const createPaymentIntent = async (req, res) => {
       fullName,
       email,
       items: Alldata,
+      acceptable: false,
     });
 
     await payment.save();
@@ -83,6 +84,15 @@ const createPaymentIntent = async (req, res) => {
   }
 };
 
+const getOrders = async (req, res) => {
+  try {
+    const Payments = await Payment.find({ userId: req.user.id });
+    res.status(200).json(Payments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = {
   createPaymentIntent,
+  getOrders,
 };

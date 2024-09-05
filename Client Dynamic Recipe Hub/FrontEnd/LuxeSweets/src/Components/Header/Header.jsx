@@ -13,7 +13,17 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [itemCount, setItemCount] = useState(0);
+  useEffect(() => {
+    const cart = localStorage.getItem("cart");
 
+    if (cart) {
+      const parsedCart = JSON.parse(cart);
+
+      const count = parsedCart.items ? parsedCart.items.length : 0;
+      setItemCount(count);
+    }
+  }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -33,6 +43,11 @@ function Header() {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown2 = () => {
+    setIsOpen(!isOpen);
+  };
   const users = data ? data.Users : [];
   const user = users.length > 0 ? users[0] : null;
 
@@ -64,12 +79,24 @@ function Header() {
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {isUser ? (
               <div className="relative flex">
-                <Link to="/cart">
-                <i className="fa-solid fa-cart-shopping text-xl text-gray-700 hover:text-[#573e18] transition-transform duration-300 transform hover:scale-110 mt-2 mr-4"></i>
-                </Link>
+                <div className="relative">
+                  <Link to="/cart">
+                    <i className="fa-solid fa-cart-shopping text-xl text-gray-700 hover:text-[#573e18] transition-transform duration-300 transform hover:scale-110 mt-[6px] mr-4"></i>
+                  </Link>
+                  {itemCount > 0 && (
+                    <Link to="/cart">
+                      <div className="absolute top-[1.2rem] right-[0.90rem] w-4 h-4 flex items-center justify-center bg-red-600 text-white text-[10px] font-bold rounded-full">
+                        {itemCount >= 10 ? "9+" : itemCount}
+                      </div>
+                    </Link>
+                  )}
+                </div>
                 <img
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  src={user.image || "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"}
+                  className="h-9 w-9 cursor-pointer rounded-full border-black border-solid border-2"
+                  src={
+                    user.image ||
+                    "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"
+                  }
                   alt="Profile"
                   onClick={toggleDropdown}
                 />
@@ -87,7 +114,7 @@ function Header() {
                       </li>
                       <li>
                         <Link
-                          to="/profile"
+                          to="/Orders"
                           className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300 "
                           onClick={() => setIsDropdownOpen(false)}
                         >
@@ -164,14 +191,34 @@ function Header() {
                   Home
                 </Link>
               </li>
-              <li>
-                <a
-                  href="#"
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown2}
                   className="block py-2 px-3 md:p-0 text-[#5f4b3a] rounded hover:bg-[#a0785d] md:hover:bg-transparent md:hover:text-[#baa492] dark:hover:bg-[#f5f3f0] transition duration-300 ease-in-out"
                 >
                   Services
-                </a>
-              </li>
+                </button>
+                {isOpen && (
+                  <ul className="absolute bg-white text-[#5f4b3a] border border-[#a0785d] rounded shadow-lg mt-2 w-48 ">
+                    <li>
+                      <Link
+                        to="AllChef"
+                        className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300"
+                      >
+                        Dessert dishes
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="Catalogrecipes"
+                        className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300"
+                      >
+                        Recipes
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
               <li>
                 <Link
                   to="/AboutUs"
