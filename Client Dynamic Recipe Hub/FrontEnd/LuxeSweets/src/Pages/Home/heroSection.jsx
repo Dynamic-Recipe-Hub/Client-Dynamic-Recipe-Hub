@@ -57,7 +57,7 @@ const IceCreamHero = () => {
               <span className="text-[#b0956e] font-bold text-xl">
                 {dishes ? dishes.length : 0}
               </span>
-              <span className="text-gray-500 text-sm">Recipes</span>
+              <span className="text-gray-500 text-sm">All Dishes</span>
             </div>
           </div>
         </div>

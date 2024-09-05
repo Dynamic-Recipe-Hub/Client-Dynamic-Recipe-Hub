@@ -8,11 +8,14 @@ import usePut from "../../hooks/usePut"; // Assuming you have the custom hook fo
 import { HiPencilAlt } from "react-icons/hi"; // For pencil icon
 import { HiEye, HiEyeOff } from "react-icons/hi"; // For eye icons
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useOrders } from "../../Context/OrdersContext";
+
 const ProfilePage = () => {
   // Fetch users data
   const { data, loading, error } = useFetch(
     "http://localhost:1001/api/auth/getAllUsers"
   );
+  const { orders } = useOrders();
 
   // Assuming we fetch the current user as the first user for demo purposes
   const users = data ? data.Users : [];
@@ -282,30 +285,123 @@ const ProfilePage = () => {
                 </div>
               )
             )}
-            {/* Last Order Section */}
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                Last Order
-              </h2>
-              {false ? (
-                <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                  <p>
-                    Order Name: <span className="font-bold">Order #1</span>
-                  </p>
-                  <p>
-                    Date: <span className="font-bold">2024-09-01</span>
-                  </p>
-                  <p>
-                    Status:{" "}
-                    <span className="font-bold text-green-600">Completed</span>
-                  </p>
+{/* Last Order Section */}
+<div className="mb-6">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Last Order</h2>
+  {orders.length > 0 ? (
+    <div className="bg-gray-50 p-4 rounded-lg shadow-md">
+      <div className="flex flex-col gap-4">
+        {/* Table for larger screens */}
+        <table className="min-w-full bg-white border border-gray-200 rounded-lg hidden md:table">
+          <thead className="bg-[#A0785D] text-white uppercase text-sm leading-normal">
+            <tr>
+              <th className="py-3 px-6 text-left">Product</th>
+              <th className="py-3 px-6 text-center">Image</th>
+              <th className="py-3 px-6 text-center">Quantity</th>
+              <th className="py-3 px-6 text-center">Price</th>
+              <th className="py-3 px-6 text-center">Total</th>
+              <th className="py-3 px-6 text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600 text-sm font-light">
+            {orders.length > 0 && (
+              <tr
+                key={orders[orders.length - 1].id}
+                className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+              >
+                <td className="py-3 px-6 text-left">
+                  <div className="text-gray-800 text-lg font-bold">
+                    {orders[orders.length - 1].product}
+                  </div>
+                </td>
+                <td className="py-3 px-6 text-center">
+                  <img
+                    src={orders[orders.length - 1].image}
+                    alt={orders[orders.length - 1].product}
+                    className="w-16 h-16 rounded-md mx-auto object-cover"
+                  />
+                </td>
+                <td className="py-3 px-6 text-center font-bold">
+                  {orders[orders.length - 1].quantity}
+                </td>
+                <td className="py-3 px-6 text-center font-bold">
+                  ${orders[orders.length - 1].price.toFixed(2)}
+                </td>
+                <td className="py-3 px-6 text-center font-bold">
+                  ${(orders[orders.length - 1].quantity * orders[orders.length - 1].price).toFixed(2)}
+                </td>
+                <td className="py-3 px-6 text-center font-bold">
+                  {orders[orders.length - 1].acceptable ? (
+                    <span className="text-green-500">Ready</span>
+                  ) : (
+                    <span className="text-red-500">Pending</span>
+                  )}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        {/* Flex display for smaller screens */}
+        {orders.length > 0 && (
+          <div className="flex flex-col md:hidden">
+            <div className="flex flex-col border-b border-gray-200 pb-4 mb-4">
+              <div className="flex items-center">
+                <div className="font-bold text-gray-600 mr-2">Product:</div>
+                <div className="text-gray-800 text-lg font-bold">
+                  {orders[orders.length - 1].product}
                 </div>
-              ) : (
-                <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-                  <p className="text-gray-500">No orders yet</p>
+              </div>
+              <div className="flex items-center mt-2">
+                <div className="font-bold text-gray-600 mr-2">Image:</div>
+                <img
+                  src={orders[orders.length - 1].image}
+                  alt={orders[orders.length - 1].product}
+                  className="w-16 h-16 rounded-md object-cover"
+                />
+              </div>
+              <div className="flex items-center mt-2">
+                <div className="font-bold text-gray-600 mr-2">Quantity:</div>
+                <div className="text-center font-bold">
+                  {orders[orders.length - 1].quantity}
                 </div>
-              )}
+              </div>
+              <div className="flex items-center mt-2">
+                <div className="font-bold text-gray-600 mr-2">Price:</div>
+                <div className="text-center font-bold">
+                  ${orders[orders.length - 1].price.toFixed(2)}
+                </div>
+              </div>
+              <div className="flex items-center mt-2">
+                <div className="font-bold text-gray-600 mr-2">Total:</div>
+                <div className="text-center font-bold">
+                  ${(orders[orders.length - 1].quantity * orders[orders.length - 1].price).toFixed(2)}
+                </div>
+              </div>
+              <div className="flex items-center mt-2">
+                <div className="font-bold text-gray-600 mr-2">Status:</div>
+                <div className="text-center font-bold">
+                  {orders[orders.length - 1].acceptable ? (
+                    <span className="text-green-500">Ready</span>
+                  ) : (
+                    <span className="text-red-500">Pending</span>
+                  )}
+                </div>
+              </div>
             </div>
+          </div>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
+      <p className="text-gray-500">No orders yet</p>
+    </div>
+  )}
+</div>
+
+
+
 
             {/* Favorites Section */}
             <div className="mb-6">

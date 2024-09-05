@@ -11,6 +11,7 @@ router.post("/googleSignup", userController.googleSignup);
 
 router.post("/Googellogin", userController.googleLogin);
 router.post("/pay", paymentController.createPaymentIntent);
+router.get("/getOrders", verifyToken,paymentController.getOrders);
 
 
 router.get("/getAllUsers", verifyToken,userController.getAllUsers);
