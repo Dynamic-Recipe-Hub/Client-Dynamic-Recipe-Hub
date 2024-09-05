@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const cartRouter = require("./Routes/cart");
 app.use(cookieParser());
 
 // استبدل بمسار النطاق المسموح به
@@ -42,7 +42,7 @@ const reviewrecipe = require("./Routes/reviewreciperoutes");
 app.use("/api/records", catalogdish);
 app.use("/api/recipe", catalogrecipe);
 app.use("/api/recipe", reviewrecipe);
-
+app.use("/cart", cartRouter);
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
