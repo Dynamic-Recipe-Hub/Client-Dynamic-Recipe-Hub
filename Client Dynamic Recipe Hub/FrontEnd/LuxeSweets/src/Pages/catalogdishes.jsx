@@ -2,7 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const CatalogDishes = () => {
+import Swal from "sweetalert2";
+
+// Utility functions to manage the cart in local storage
+const saveCartToLocalStorage = (cart) => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+};
+
+const getCartFromLocalStorage = () => {
+  const cart = localStorage.getItem("cart");
+  return cart ? JSON.parse(cart) : null;
+};
+
+const Catalogdishes = () => {
+
   const [desserts, setDesserts] = useState([]);
   const navigate = useNavigate();
 
@@ -24,17 +37,76 @@ const CatalogDishes = () => {
       );
 
       setDesserts(filteredDesserts);
+
     } catch (e) {
       console.log(e);
     }
   };
 
-  // Click handler to store the clicked dessert in sessionStorage
   const handleCardClick = (dessert) => {
     sessionStorage.setItem("selectedDessert", JSON.stringify(dessert));
     navigate(`/DishDetail`);
   };
 
+  // Function to add a dish to the cart
+  const addToCart = (dessert) => {
+    let cart = getCartFromLocalStorage();
+  
+    if (!cart) {
+      cart = {
+        items: [],
+        chef: dessert.chef,
+        total: 0,
+      };
+    }
+  
+    // Check if the dish is from the same chef
+    if (cart.chef !== dessert.chef) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Action',
+        text: 'You can only add items from the same chef.',
+      });
+      return;
+    }
+  
+    // Add or update the item in the cart
+    const existingItem = cart.items.find(item => item.dish._id === dessert._id);
+    if (existingItem) {
+      // Check if adding one more would exceed the available quantity
+      if (existingItem.quantity + 1 > dessert.availableQuantity) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Quantity Exceeded',
+          text: 'Cannot add more items. Exceeds available quantity.',
+        });
+        return;
+      }
+      existingItem.quantity += 1;
+    } else {
+      // Check if adding this item would exceed the available quantity
+      if (1 > dessert.availableQuantity) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Quantity Exceeded',
+          text: 'Cannot add more items. Exceeds available quantity.',
+        });
+        return;
+      }
+      cart.items.push({ dish: dessert, quantity: 1 });
+    }
+  
+    // Update total price
+    cart.total = cart.items.reduce((acc, item) => acc + (item.dish.price * item.quantity), 0);
+  
+    saveCartToLocalStorage(cart);
+    Swal.fire({
+      icon: 'success',
+      title: 'Added to Cart',
+      text: 'Dish added to cart!',
+    });
+  };
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -52,21 +124,25 @@ const CatalogDishes = () => {
           <div
             key={index}
             className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
-            onClick={() => handleCardClick(dessert)}
           >
             <img
               src={dessert.images[0]} // Display the first image in the array
               alt={dessert.name}
               className="w-full h-48 object-cover"
+              onClick={() => handleCardClick(dessert)}
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold">{dessert.name}</h3>
+              <button
+                onClick={() => addToCart(dessert)}
+                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}
       </div>
-
-      <div className="mt-8 flex justify-center"></div>
     </div>
   );
 };

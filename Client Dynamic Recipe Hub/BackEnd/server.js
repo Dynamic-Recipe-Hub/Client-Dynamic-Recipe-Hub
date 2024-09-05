@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const cartRouter = require("./Routes/cart");
 app.use(cookieParser());
 
 // استبدل بمسار النطاق المسموح به
@@ -45,6 +45,8 @@ app.use("/api/recipe", reviewrecipe);
 
 const chefRoutes = require("./Routes/chefRoutes");
 app.use("/api/chef", chefRoutes);
+
+app.use("/cart", cartRouter);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
