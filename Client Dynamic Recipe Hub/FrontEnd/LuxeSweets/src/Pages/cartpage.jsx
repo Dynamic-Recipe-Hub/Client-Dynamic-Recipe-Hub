@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+
 import { FaTrashAlt, FaShoppingCart } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+
+import Header from "../Components/Header/Header";
+import Footer from "../Components/Footer/Footer";
 
 const getCartFromLocalStorage = () => {
   const cart = localStorage.getItem("cart");
@@ -27,7 +31,10 @@ const CartPage = () => {
   }, [cart, navigate]);
 
   const calculateTotalPrice = () => {
-    const total = cart.items.reduce((acc, item) => acc + item.quantity * item.dish.price, 0);
+    const total = cart.items.reduce(
+      (acc, item) => acc + item.quantity * item.dish.price,
+      0
+    );
     setTotalPrice(total);
     const updatedCart = { ...cart, total };
     setCart(updatedCart);
@@ -63,8 +70,8 @@ const CartPage = () => {
 
     if (newQuantity > item.dish.availableQuantity) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `Cannot add more than available quantity (${item.dish.availableQuantity})!`,
       });
       return;
@@ -79,6 +86,8 @@ const CartPage = () => {
   if (!cart) return <div className="flex justify-center items-center h-screen">Loading...</div>;
 
   return (
+     <>
+      <Header />
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#f5f3f0] min-h-screen">
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 text-center text-gray-800 tracking-tight">
         Your Cart
@@ -167,6 +176,9 @@ const CartPage = () => {
         </motion.div>
       )}
     </div>
+      <Footer />
+    </>
+
   );
 };
 

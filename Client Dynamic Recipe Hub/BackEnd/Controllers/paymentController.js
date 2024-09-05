@@ -44,7 +44,7 @@ const Payment = require("../Models/pyament");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const createPaymentIntent = async (req, res) => {
-  const { userId, productId, fullName, email } = req.body;
+  const { userId, productId, fullName, email, Alldata, Prise } = req.body;
 
   // تحديد السعر الثابت (مثلاً: 1000 سنتات = 10 دولارات)
   const amount = 1000; // السعر ثابت بالـ سنتات
@@ -62,13 +62,14 @@ const createPaymentIntent = async (req, res) => {
 
     const payment = new Payment({
       stripePaymentId: paymentIntent.id,
-      amount,
+      amount: Prise,
       currency,
       status: paymentIntent.status,
-      userId: userId ,
+      userId: userId,
       productId: productId ? mongoose.Types.ObjectId(productId) : null,
       fullName,
       email,
+      items: Alldata,
     });
 
     await payment.save();

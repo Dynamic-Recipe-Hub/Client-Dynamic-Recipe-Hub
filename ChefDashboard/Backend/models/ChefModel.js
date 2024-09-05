@@ -6,8 +6,8 @@ const chefSchema = new mongoose.Schema({
     password: { type: String, required: true },
     image: { type: String },
     bio: String,
-    image: { type: String },
-    isApproved: { type: Boolean, default: false }
+    isApproved: { type: Boolean, default: false },
+    earnings: { type: Number, default: 0 }
 });
 
 const Chef = mongoose.model('Chef', chefSchema);

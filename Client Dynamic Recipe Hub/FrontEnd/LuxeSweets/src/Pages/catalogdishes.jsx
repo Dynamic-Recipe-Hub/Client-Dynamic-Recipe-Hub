@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import Swal from "sweetalert2";
 
 // Utility functions to manage the cart in local storage
@@ -14,6 +15,7 @@ const getCartFromLocalStorage = () => {
 };
 
 const Catalogdishes = () => {
+
   const [desserts, setDesserts] = useState([]);
   const navigate = useNavigate();
 
@@ -24,7 +26,18 @@ const Catalogdishes = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:1001/api/records");
-      setDesserts(response.data);
+      const data = response.data;
+
+      // Get chefId from sessionStorage
+      const chefId = sessionStorage.getItem("selectedChefId");
+
+      // Filter dishes based on chef's id
+      const filteredDesserts = data.filter(
+        (dessert) => dessert.chef === chefId
+      );
+
+      setDesserts(filteredDesserts);
+
     } catch (e) {
       console.log(e);
     }
@@ -113,7 +126,7 @@ const Catalogdishes = () => {
             className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
           >
             <img
-              src={dessert.images[0]}
+              src={dessert.images[0]} // Display the first image in the array
               alt={dessert.name}
               className="w-full h-48 object-cover"
               onClick={() => handleCardClick(dessert)}
