@@ -3,7 +3,7 @@ const { setCuisine, getAllCuisines } = require("../controllers/CuisineController
 
 
 const router = express.Router();
-
+router.get("/getCuisine", getCuisine);
 router.post("/setCuisine", setCuisine);
 router.get('/getAllCuisines', getAllCuisines);
 
