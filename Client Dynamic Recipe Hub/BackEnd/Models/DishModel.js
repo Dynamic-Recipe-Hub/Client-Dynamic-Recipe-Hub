@@ -86,7 +86,7 @@ const dishSchema = new mongoose.Schema({
   },
 });
 
-// Compile and export the Dish model
-const Dish = mongoose.model("Dish", dishSchema);
+// Compile and export the Dish model, only if it hasn't been compiled already
+const Dish = mongoose.models.Dish || mongoose.model("Dish", dishSchema);
 
 module.exports = Dish;

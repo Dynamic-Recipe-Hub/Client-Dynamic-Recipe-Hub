@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FaTrashAlt, FaShoppingCart } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const getCartFromLocalStorage = () => {
   const cart = localStorage.getItem("cart");
@@ -18,7 +20,7 @@ const CartPage = () => {
 
   useEffect(() => {
     if (cart.items.length === 0) {
-      navigate("/Catalogdishes"); // Redirect to catalog if cart is empty
+      navigate("/Catalogdishes");
     } else {
       calculateTotalPrice();
     }
@@ -27,7 +29,6 @@ const CartPage = () => {
   const calculateTotalPrice = () => {
     const total = cart.items.reduce((acc, item) => acc + item.quantity * item.dish.price, 0);
     setTotalPrice(total);
-    // Update total price in the cart object and local storage
     const updatedCart = { ...cart, total };
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -35,8 +36,8 @@ const CartPage = () => {
 
   const handleCheckout = () => {
     clearCartFromLocalStorage();
-    setCart({ items: [], total: 0 }); // Clear cart state
-    setTotalPrice(0); // Reset total price
+    setCart({ items: [], total: 0 });
+    setTotalPrice(0);
     navigate("/PaymentComponent");
   };
 
@@ -58,7 +59,7 @@ const CartPage = () => {
     const item = updatedCart.items[index];
     const newQuantity = item.quantity + change;
 
-    if (newQuantity <= 0) return; // Prevent negative or zero quantities
+    if (newQuantity <= 0) return;
 
     if (newQuantity > item.dish.availableQuantity) {
       Swal.fire({
@@ -72,72 +73,98 @@ const CartPage = () => {
     item.quantity = newQuantity;
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    calculateTotalPrice(); // Ensure total price is recalculated
+    calculateTotalPrice();
   };
 
-  if (!cart) return <div>Loading...</div>;
+  if (!cart) return <div className="flex justify-center items-center h-screen">Loading...</div>;
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Your Cart</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#f5f3f0] min-h-screen">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 text-center text-gray-800 tracking-tight">
+        Your Cart
+      </h1>
       {cart.items.length === 0 ? (
-        <div className="text-center">
-          <p className="text-lg text-gray-600 mb-4">Your cart is empty.</p>
-          <a href="/catalog" className="text-blue-500 font-semibold hover:underline">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center bg-white p-6 sm:p-8 rounded-lg shadow-lg max-w-md mx-auto"
+        >
+          <FaShoppingCart className="mx-auto text-4xl sm:text-6xl text-gray-400 mb-4" />
+          <p className="text-lg sm:text-xl text-gray-600 mb-6">Your cart is empty.</p>
+          <a
+            href="/catalog"
+            className="text-blue-500 font-semibold hover:underline transition duration-300"
+          >
             Go back to the catalog
           </a>
-        </div>
+        </motion.div>
       ) : (
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <ul className="space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-xl"
+        >
+          <ul className="space-y-6 sm:space-y-8">
             {cart.items.map((item, index) => (
-              <li key={index} className="flex items-center justify-between border-b pb-4 mb-4 last:border-b-0">
-                <div className="flex items-center">
+              <motion.li
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className="flex flex-col sm:flex-row items-center sm:items-start justify-between border-b pb-6 mb-6 last:border-b-0"
+              >
+                <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 w-full">
                   <img
-                    src={item.dish.images[0]} // Display the dish image
+                    src={item.dish.images[0]}
                     alt={item.dish.name}
-                    className="w-24 h-24 object-cover rounded mr-4"
+                    className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg shadow-md mb-4 sm:mb-0"
                   />
-                  <div className="flex-grow">
-                    <p className="text-lg font-semibold text-gray-800">{item.dish.name}</p>
-                    <div className="flex items-center mt-2">
+                  <div className="flex-grow text-center sm:text-left">
+                    <p className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">{item.dish.name}</p>
+                    <div className="flex items-center justify-center sm:justify-start mt-3 bg-gray-100 rounded-lg inline-flex">
                       <button
                         onClick={() => adjustQuantity(index, -1)}
-                        className="bg-gray-300 text-gray-600 px-4 py-2 rounded-l hover:bg-gray-400"
+                        className="bg-gray-200 text-gray-600 px-3 py-1 sm:px-4 sm:py-2 rounded-l hover:bg-gray-300 transition duration-300"
                       >
                         -
                       </button>
-                      <p className="px-4 py-2 bg-gray-200 text-gray-700">{item.quantity}</p>
+                      <p className="px-4 sm:px-6 py-1 sm:py-2 text-gray-700 font-medium">{item.quantity}</p>
                       <button
                         onClick={() => adjustQuantity(index, 1)}
-                        className="bg-gray-300 text-gray-600 px-4 py-2 rounded-r hover:bg-gray-400"
+                        className="bg-gray-200 text-gray-600 px-3 py-1 sm:px-4 sm:py-2 rounded-r hover:bg-gray-300 transition duration-300"
                       >
                         +
                       </button>
                     </div>
-                    <p className="text-sm text-gray-600 mt-2">Price: ${item.dish.price.toFixed(2)}</p>
-                    <p className="text-sm text-gray-600">Total: ${(item.quantity * item.dish.price).toFixed(2)}</p>
+                    <p className="text-sm text-gray-600 mt-3">Price: ${item.dish.price.toFixed(2)}</p>
+                    <p className="text-sm font-medium text-gray-700 mt-1">
+                      Total: ${(item.quantity * item.dish.price).toFixed(2)}
+                    </p>
                   </div>
-                  <button
-                    onClick={() => handleRemoveItem(index)}
-                    className="bg-red-600 text-white px-4 py-2 rounded ml-4 hover:bg-red-700"
-                  >
-                    Remove
-                  </button>
                 </div>
-              </li>
+                <button
+                  onClick={() => handleRemoveItem(index)}
+                  className="mt-4 sm:mt-0 p-2 rounded-full hover:bg-red-100 focus:outline-none transition duration-300"
+                >
+                  <FaTrashAlt className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 hover:text-red-600" />
+                </button>
+              </motion.li>
             ))}
           </ul>
-          <div className="mt-6 flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-gray-800">Total Price: ${totalPrice.toFixed(2)}</h2>
+          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-0">
+              Total: ${totalPrice.toFixed(2)}
+            </h2>
             <button
               onClick={handleCheckout}
-              className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+              className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300 shadow-md text-lg"
             >
               Proceed to Payment
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
