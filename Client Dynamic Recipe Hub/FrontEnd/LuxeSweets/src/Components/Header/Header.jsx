@@ -202,7 +202,7 @@ function Header() {
                   <ul className="absolute bg-white text-[#5f4b3a] border border-[#a0785d] rounded shadow-lg mt-2 w-48 ">
                     <li>
                       <Link
-                        to="AllChef"
+                        to="/AllChef"
                         className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300"
                       >
                         Dessert dishes
@@ -210,7 +210,7 @@ function Header() {
                     </li>
                     <li>
                       <Link
-                        to="Catalogrecipes"
+                        to="/Catalogrecipes"
                         className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300"
                       >
                         Recipes
