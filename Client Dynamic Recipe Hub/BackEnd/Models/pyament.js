@@ -1,15 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const paymentSchema = new mongoose.Schema({
-//   stripePaymentId: { type: String, required: true },
-//   amount: { type: Number, required: true },
-//   currency: { type: String, required: true },
-//   status: { type: String, required: true },
-//   createdAt: { type: Date, default: Date.now },
-//   updatedAt: { type: Date, default: Date.now },
-// });
-
-// module.exports = mongoose.model("Payment", paymentSchema);
 const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema(
@@ -30,6 +18,11 @@ const paymentSchema = new mongoose.Schema(
     },
     fullName: { type: String, required: true },
     email: { type: String, required: true },
+    items: {
+      type: mongoose.Schema.Types.Mixed,
+
+      default: null, // يمكن أن تكون null بشكل افتراضي
+    },
   },
   { timestamps: true }
 );

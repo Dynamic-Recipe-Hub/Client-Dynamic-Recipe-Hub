@@ -37,12 +37,13 @@ const CheckoutForm = () => {
 
     if (cartData) {
       const cart = JSON.parse(cartData);
-      seAlldata(cartData);
+      seAlldata(cart);
       setTotal(cart.total);
     }
   }, []);
 
   const fixedAmount = total; // Fixed price in cents
+  console.log(Alldata);
 
   const handleStripeSubmit = async (event) => {
     event.preventDefault();
@@ -57,15 +58,15 @@ const CheckoutForm = () => {
         Prise: total,
         Alldata: Alldata,
       });
-    
+
       const { error: backendError, clientSecret } = response.data;
-    
+
       if (backendError) {
         setError(backendError);
         setProcessing(false);
         return;
       }
-    
+
       const { error: stripeError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -76,7 +77,7 @@ const CheckoutForm = () => {
             },
           },
         });
-    
+
       if (stripeError) {
         setError(stripeError.message);
       } else if (paymentIntent.status === "succeeded") {
@@ -87,11 +88,12 @@ const CheckoutForm = () => {
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
+            localStorage.removeItem("cart");
             window.location.assign("/"); // Redirect to home page
           }
         });
       }
-    
+
       setProcessing(false);
     } catch (error) {
       console.error("Error:", error.message);
