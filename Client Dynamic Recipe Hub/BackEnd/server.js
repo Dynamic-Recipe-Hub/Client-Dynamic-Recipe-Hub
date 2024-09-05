@@ -42,7 +42,12 @@ const reviewrecipe = require("./Routes/reviewreciperoutes");
 app.use("/api/records", catalogdish);
 app.use("/api/recipe", catalogrecipe);
 app.use("/api/recipe", reviewrecipe);
+
+const chefRoutes = require("./Routes/chefRoutes");
+app.use("/api/chef", chefRoutes);
+
 app.use("/cart", cartRouter);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

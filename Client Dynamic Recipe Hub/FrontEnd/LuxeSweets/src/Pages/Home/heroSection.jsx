@@ -13,7 +13,6 @@ const IceCreamHero = () => {
   return (
     <>
       <div className="bg-[#f4ead2] min-h flex flex-col lg:flex-row items-center justify-center p-8 relative overflow-hidden">
-
         {/* Background Elements */}
         <div className="absolute top-0 left-0 w-40 h-40 bg-[#b0956e] rounded-full -translate-x-20 -translate-y-20 blur-2xl opacity-50"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#d1b894] rounded-full translate-x-36 translate-y-36 blur-3xl opacity-50"></div>
@@ -32,10 +31,10 @@ const IceCreamHero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
-                to="/Catalogdishes"
+                to="/AllChef"
                 className="bg-[#b0956e] text-white px-6 sm:px-8 py-3 rounded-full font-semibold flex items-center justify-center hover:bg-[#9a7f5b] transition-colors"
               >
-                Sweets Recipes <ShoppingCart className="ml-2" size={20} />
+                Dessert dishes <ShoppingCart className="ml-2" size={20} />
               </Link>
               <Link
                 to="/Catalogrecipes"
