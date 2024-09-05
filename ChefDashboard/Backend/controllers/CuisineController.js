@@ -35,19 +35,17 @@ const setCuisine = async (req, res) => {
 };
 
 
-/****************************** */
-
-const getCuisine = async (req, res) => {
+const getAllCuisines = async (req, res) => {
   try {
-    const cuisines = await Cuisine.find();  
+  
+    const cuisines = await Cuisine.find();
 
-    res.status(200).json({ message: "Cuisines retrieved successfully", cuisine: cuisines }); 
-
+    // Respond with the list of cuisines
+    res.status(200).json(cuisines);
   } catch (error) {
-    console.error("Error retrieving cuisines:", error); 
-    res.status(500).json({ message: "Internal server error" }); 
+    // Handle any errors that occur during the process
+    console.error('Error fetching cuisines:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
-module.exports = { setCuisine, getCuisine };
+module.exports = { setCuisine, getAllCuisines };
