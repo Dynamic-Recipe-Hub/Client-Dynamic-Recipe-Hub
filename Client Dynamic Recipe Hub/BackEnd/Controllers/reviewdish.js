@@ -1,6 +1,22 @@
 const Dish = require("../models/DishModel");
+const users = require("../models/UserModels");
 
-const testUserId = "66d6b172915efaec939b6973";
+
+exports.getrecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const records = await Dish.findById(id).populate("ratings.comments.user");
+    // تحقق إذا لم يتم العثور على أي وصفة
+    if (!records || records.length === 0) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 exports.likeDish = async (req, res) => {
   try {
     const dish = await Dish.findById(req.params.id);
@@ -8,7 +24,7 @@ exports.likeDish = async (req, res) => {
       return res.status(404).json({ message: "dish not found" });
     }
 
-    const userId = testUserId;
+    const userId = req.user.id;
     if (dish.ratings.length === 0) {
       dish.ratings.push({});
     }
@@ -35,7 +51,7 @@ exports.addComment = async (req, res) => {
     }
 
     const { text, parentId } = req.body;
-    const userId = testUserId;
+    const userId = req.user.id;
 
     if (dish.ratings.length === 0) {
       dish.ratings.push({});
@@ -67,7 +83,7 @@ exports.reportdish = async (req, res) => {
     }
 
     const { reason } = req.body;
-    const userId = testUserId; // Using the hardcoded user ID for testing
+    const userId = req.user.id; // Using the hardcoded user ID for testing
 
     dish.ratings[0].reportFlag.isReported = true;
     dish.ratings[0].reportFlag.reports.push({ reason, user: userId });

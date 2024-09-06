@@ -24,7 +24,7 @@ const StarRating = ({ rating }) => (
         className={`w-5 h-5`}
         style={{ 
           fill: i < rating ? '#FBBF24' : 'none', 
-          stroke: i < rating ? '#FBBF24' : '#D1D5DB'
+          stroke: i < rating ? '#FBBF24' : 'none'
         }}
       />
     ))}
