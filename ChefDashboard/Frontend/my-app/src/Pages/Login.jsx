@@ -60,7 +60,7 @@ const handleSuccessClick = (title, message) => {
         sessionStorage.setItem('chefId', response.data.id);
         console.log(response.data.id);
         
-        navigate('/ViewDish');
+        navigate('/Dashboard');
   
         // Clear input fields
         setEmail("");

@@ -102,7 +102,7 @@ const handleImageUpload = async (e) => {
     async function getAllCuisines() {
       try {
         const response = await axios.get('http://localhost:3000/api/cuisine/getAllCuisines');
-        setCuisines(response.data);
+        setCuisines(response.data.cuisine);
       } catch (error) {
         console.error('Error fetching cuisines:', error);
       }
@@ -114,12 +114,14 @@ const handleImageUpload = async (e) => {
 
   return (
     <div className="flex">
-      <div className="w-1/4"></div>
+      <div className="w-1/4">
+      
+      </div>
       <div className="flex items-center w-3/4 h-screen px-2 mr-20 overflow-hidden">
         <div className="relative flex flex-col px-5 py-10 space-y-5 bg-white border rounded-lg shadow-xl w-[60rem] sm:mx-auto">
           <div className="-z-10 absolute top-4 left-1/2 h-full w-5/6 -translate-x-1/2 rounded-lg bg-[#b0956e] sm:-right-10 sm:top-auto sm:left-auto sm:w-full sm:translate-x-0"></div>
           <div className="mx-auto mb-2 space-y-3">
-            <h1 className="text-3xl font-bold text-center text-gray-700">Add Dish</h1>
+            <h1 className="text-3xl font-bold text-center text-[#b0956e] ">Add Dish</h1>
           </div>
 
           <form onSubmit={handleSubmit}>

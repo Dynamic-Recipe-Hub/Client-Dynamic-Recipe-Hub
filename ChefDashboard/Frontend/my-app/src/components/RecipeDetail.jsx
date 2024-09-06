@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { api } from '../api/axios';
 import { useParams } from 'react-router-dom';
 
@@ -18,8 +18,9 @@ const RecipeDetail = () => {
       });
 
     // Fetch the list of cuisines
-    api.get('cuisine/getCuisine')
+    api.get('cuisine/getAllCuisines')
       .then(response => {
+       
         if (Array.isArray(response.data.cuisine)) {
           setCuisines(response.data.cuisine);
         } else {
@@ -30,18 +31,19 @@ const RecipeDetail = () => {
   }, [id]);
 
   const getCuisineName = (cuisineId) => {
+    console.log(cuisineId);
     const cuisine = cuisines.find(c => c._id === cuisineId);
     return cuisine ? cuisine.name : 'Unknown';
   };
 
-  if (error) return <p className="text-red-600 font-semibold">{error}</p>;
-  if (!recipe) return <p className="text-gray-600">Loading...</p>;
+  if (error) return <p className="font-semibold text-red-600">{error}</p>;
+  // if (!recipe) return <p className="text-gray-600">Loading...</p>;
 
   return (
     <div className="flex">
       {/* Sidebar */}
-      <aside className="w-1/4 bg-white shadow-lg p-6 border-r border-gray-200">
-        <h2 className="text-2xl font-semibold mb-6">Navigation</h2>
+      <aside className="w-1/4 p-6 bg-white border-r border-gray-200 shadow-lg">
+        <h2 className="mb-6 text-2xl font-semibold">Navigation</h2>
         <ul className="space-y-4">
           <li><a href="#" className="text-blue-600 hover:underline">Dashboard</a></li>
           <li><a href="#" className="text-blue-600 hover:underline">My Recipes</a></li>
@@ -50,50 +52,50 @@ const RecipeDetail = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="w-3/4 p-6 space-y-8 mt-16">
-        <h1 className="text-4xl font-extrabold mb-8">{recipe.title}</h1>
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Ingredients</p>
-          <ul className="list-disc list-inside space-y-2">
+      <main className="w-3/4 p-6 mt-16 space-y-8">
+        <h1 className="mb-8 text-4xl font-extrabold">{recipe.title}</h1>
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Ingredients</p>
+          <ul className="space-y-2 list-disc list-inside">
             {recipe.ingredients.map((ingredient, index) => (
               <li key={index} className="text-lg">{ingredient.name}: {ingredient.quantity}</li>
             ))}
           </ul>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Instructions</p>
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Instructions</p>
           <p className="text-lg">{recipe.instructions}</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Cooking Time</p>
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Cooking Time</p>
           <p className="text-lg">{recipe.cookingTime} minutes</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Categories</p>
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Categories</p>
           <p className="text-lg">{recipe.categories.join(', ')}</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Cuisine</p>
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Cuisine</p>
           <p className="text-lg">{getCuisineName(recipe.cuisine.name)}</p>
         </div>
         {recipe.images.length > 0 && (
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-            <p className="text-2xl font-semibold mb-4">Images</p>
+          <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+            <p className="mb-4 text-2xl font-semibold">Images</p>
             <div className="flex flex-wrap gap-4">
               {recipe.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   alt={`Recipe Image ${index}`}
-                  className="w-48 h-48 object-cover rounded-lg border border-gray-300 shadow-md"
+                  className="object-cover w-48 h-48 border border-gray-300 rounded-lg shadow-md"
                 />
               ))}
             </div>
           </div>
         )}
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-2xl font-semibold mb-4">Ratings</p>
-          <ul className="list-disc list-inside space-y-2">
+        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <p className="mb-4 text-2xl font-semibold">Ratings</p>
+          <ul className="space-y-2 list-disc list-inside">
             {recipe.ratings.map((rating, index) => (
               <li key={index} className="text-lg">{rating.rating} stars - {rating.comment}</li>
             ))}

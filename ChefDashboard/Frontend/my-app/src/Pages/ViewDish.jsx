@@ -1,7 +1,11 @@
 // import Sidebar from "../components/sidebar/Sidebar";
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useContext, } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrashAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { ChefContext } from '../contexts/ChefContext';
+import UseSweetAlert from '../components/useSweetAlert.jsx';
+
+
 function ViewDish(){
 
 
@@ -15,7 +19,14 @@ function ViewDish(){
     const [showFilter, setShowFilter] = useState("all"); 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const { setChefImage } = useContext(ChefContext);
+    const {setChefName} = useContext(ChefContext);
+    const {setChefEmail} = useContext(ChefContext);
+    
+    const { showSuccessAlert, showErrorAlert } = UseSweetAlert();
 
+
+   
     
     const fetchDishes = async (page = 1) => {
       const chefId = sessionStorage.getItem('chefId');
@@ -28,11 +39,20 @@ function ViewDish(){
         const response = await axios.get('http://localhost:3000/api/Dish/GetDish', {
           params: { page, limit: 10, chefId },
         });
-    
+        const chefImage = response.data.dishes[0].chef.image; // Get the chef's image
+        const chefName = response.data.dishes[0].chef.name;
+        const chefEmail = response.data.dishes[0].chef.email;
+   
+        setChefImage(chefImage);
+        setChefEmail(chefEmail);
+        setChefName(chefName);
+        console.log(response.data.dishes[0].chef.image);
         setDishes(response.data.dishes);
         setCurrentPage(response.data.page);
         setTotalPages(response.data.totalPages);
         setLoading(false);
+ 
+     
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -57,10 +77,21 @@ function ViewDish(){
     };
     
     /**************************** */
+    /******************************* */
+  
+
+  const handleSuccessClick = (title, message) => {
+    showSuccessAlert(title, message);
+  };
+
+  const handleErrorClick = (title, message) => {
+    showErrorAlert(title, message);
+  };
+/*************************************** */
     const updateDish = async (id, updatedData) => {
         try {
           const response = await axios.put(`http://localhost:3000/api/Dish/UpdateDish/${id}`, updatedData);
-          alert('Dish updated successfully');
+          handleSuccessClick("successfully", "The operation was completed successfully");
           console.log('Dish updated successfully:', response.data);
           // Optionally update the local state to reflect the change
           setDishes((prevDishes) =>
@@ -69,6 +100,7 @@ function ViewDish(){
             )
           );
         } catch (err) {
+          handleErrorClick("Error", "Error updating dish:")
           console.error('Error updating dish:', err);
         }
       };
@@ -83,7 +115,7 @@ function ViewDish(){
       const handleDelete = async (id) => {
         try {
           await updateDish(id, { isDeleted: true });
-          // Update the local state to remove the deleted dish
+          handleSuccessClick("successfully", "The operation was completed successfully");
           setDishes((prevDishes) =>
             prevDishes.filter((dish) => dish._id !== id)
           );
@@ -211,7 +243,7 @@ const handleUpdateDish = async (e, id) => {
                 </th>
                    
                 <th scope="col" className="px-6 py-3">
-                    Action
+                    Details
                 </th>
                
             </tr>
@@ -351,9 +383,9 @@ const handleUpdateDish = async (e, id) => {
                             {selectedDish.name}
                         </h1>
                         <div className="flex gap-7">
-                            <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
+                            {/* <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
                                 <span className="font-bold"> Cuisine</span> {selectedDish.cuisine.name} |
-                            </p>
+                            </p> */}
                             <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
                                 <span className="font-bold"> Price</span> {selectedDish.price} 
                             </p>

@@ -17,20 +17,28 @@ const RecipeList = () => {
 
   const fetchRecipes = async () => {
     try {
+      // Get the chefId from sessionStorage (or other storage)
+    
+  
+      // Prepare the request with chefId if available
       const response = await api.get('recipes');
+  
       const data = response.data;
+  
+      // Check if the response is an array of recipes
       if (Array.isArray(data)) {
-        setRecipes(data);
+        setRecipes(data);  // Update state with the recipes data
       } else {
-        setError('Unexpected response format.');
+        setError('Unexpected response format.'); // Handle unexpected response format
       }
     } catch (error) {
       console.error('Error fetching recipes:', error);
-      setError('Failed to fetch recipes.');
+      setError('Failed to fetch recipes.'); // Set a meaningful error message for the user
     } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading state is disabled once the fetch completes
     }
   };
+  
 
   const updateRecipe = async (id, updatedData) => {
     try {
@@ -90,7 +98,7 @@ const RecipeList = () => {
         {/* <Sidebar/> */}
       </div>
 
-      <div className="relative w-3/4 mt-48 mr-40 overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative w-3/4 mt-48 mr-20 overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex flex-wrap items-center justify-between pb-4 space-y-4 bg-white flex-column md:flex-row md:space-y-0 dark:bg-gray-900">
           <div className="flex items-center space-x-4">
             <button onClick={handleAddNewRecipe} className="px-4 py-2 bg-[#b0956e] text-white rounded hover:bg-[#a17e58] transition">
@@ -140,12 +148,12 @@ const RecipeList = () => {
                 </td>
 
                 <td className="px-6 py-4">
-                  <div className="w-16 h-16 relative">
+                  <div className="relative w-16 h-16">
                     {recipe.images.length > 0 && (
                       <img
                         src={recipe.images[0]}
                         alt="Recipe Image"
-                        className="w-full h-full object-cover rounded-full"
+                        className="object-cover w-full h-full rounded-full"
                       />
                     )}
                   </div>
@@ -157,11 +165,11 @@ const RecipeList = () => {
                 </th>
 
                 <td className="px-6 py-4">
-                  {recipe.approved ? <a href="#" className="font-medium text-green-600 dark:text-green-500 hover:underline">approved</a> : <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">not approved</a>}
+                  {recipe.isApproved ? <a href="#" className="font-medium text-green-600 dark:text-green-500 hover:underline">approved</a> : <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">not approved</a>}
                 </td>
                 <td className="px-6 py-4">{recipe.cookingTime} mins</td>
 
-                <td className="px-6 py-4 flex space-x-2">
+                <td className="flex px-6 py-4 space-x-2">
                   <Link to={`/recipes/${recipe._id}/edit`} >
                     <FaEdit className="mt-6" />
                   </Link>
@@ -205,11 +213,11 @@ const RecipeDetailModal = ({ isOpen, onClose, recipe }) => {
         <img
           src={recipe.images[0]} // Display the first image prominently
           alt="Recipe Image"
-          className="w-full h-96 object-cover rounded-lg"
+          className="object-cover w-full rounded-lg h-96"
         />
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg"
+          className="absolute p-2 bg-white rounded-full shadow-lg bottom-4 right-4"
         >
           <svg
             className={`w-6 h-6 transition-transform ${showDetails ? 'rotate-180' : ''}`}
@@ -223,51 +231,51 @@ const RecipeDetailModal = ({ isOpen, onClose, recipe }) => {
         </button>
         {/* Details Section */}
         {showDetails && (
-          <div className="p-6 bg-white rounded-b-lg shadow-md border-t border-gray-200">
-            <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+          <div className="p-6 bg-white border-t border-gray-200 rounded-b-lg shadow-md">
+            <h1 className="mb-4 text-3xl font-bold">{recipe.title}</h1>
             <div className="space-y-6">
               <div>
-                <p className="text-xl font-semibold mb-2">Ingredients</p>
-                <ul className="list-disc list-inside space-y-2">
+                <p className="mb-2 text-xl font-semibold">Ingredients</p>
+                <ul className="space-y-2 list-disc list-inside">
                   {recipe.ingredients.map((ingredient, index) => (
                     <li key={index} className="text-base">{ingredient.name}: {ingredient.quantity}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-xl font-semibold mb-2">Instructions</p>
+                <p className="mb-2 text-xl font-semibold">Instructions</p>
                 <p className="text-base">{recipe.instructions}</p>
               </div>
               <div>
-                <p className="text-xl font-semibold mb-2">Cooking Time</p>
+                <p className="mb-2 text-xl font-semibold">Cooking Time</p>
                 <p className="text-base">{recipe.cookingTime} minutes</p>
               </div>
               <div>
-                <p className="text-xl font-semibold mb-2">Categories</p>
+                <p className="mb-2 text-xl font-semibold">Categories</p>
                 <p className="text-base">{recipe.categories.join(', ')}</p>
               </div>
               <div>
-                <p className="text-xl font-semibold mb-2">Cuisine</p>
+                <p className="mb-2 text-xl font-semibold">Cuisine</p>
                 <p className="text-base">{recipe.cuisine.name ? recipe.cuisine.name : 'Loading...'}</p>
               </div>
               {recipe.images.length > 1 && (
                 <div>
-                  <p className="text-xl font-semibold mb-2">Additional Images</p>
+                  <p className="mb-2 text-xl font-semibold">Additional Images</p>
                   <div className="flex flex-wrap gap-4">
                     {recipe.images.slice(1).map((image, index) => (
                       <img
                         key={index}
                         src={image}
                         alt={`Additional Recipe Image ${index}`}
-                        className="w-32 h-32 object-cover rounded-lg border border-gray-300 shadow-md"
+                        className="object-cover w-32 h-32 border border-gray-300 rounded-lg shadow-md"
                       />
                     ))}
                   </div>
                 </div>
               )}
               <div>
-                <p className="text-xl font-semibold mb-2">Ratings</p>
-                <ul className="list-disc list-inside space-y-2">
+                <p className="mb-2 text-xl font-semibold">Ratings</p>
+                <ul className="space-y-2 list-disc list-inside">
                   {recipe.ratings.map((rating, index) => (
                     <li key={index} className="text-base">{rating.rating} stars - {rating.comment}</li>
                   ))}

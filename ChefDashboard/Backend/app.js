@@ -4,29 +4,27 @@ const mongoose = require('mongoose');
 const cors = require('cors'); 
 const config = require('./config/config'); 
 const cookieParser = require('cookie-parser');
-const session = require('express-session'); 
+
 const app = express();
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
+
 const CuisineRoutes = require('./routes/CuisineRoute');
 
 const DishRoute = require('./routes/DishRoute');
 const ChefRoute = require('./routes/ChefRoute');
 const recipeRoutes = require('./routes/RecipeRoute');
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
-  }));
+const getAllPayments = require("./routes/OrderRoute");
   
 
 
 app.use('/api/cuisine', CuisineRoutes); 
 app.use('/api/Dish', DishRoute);
-app.use('/api/newChef', ChefRoute)
+app.use('/api/newChef', ChefRoute);
+app.use('/api/order', getAllPayments);
+
 
 app.use('/api/recipes', recipeRoutes);
 

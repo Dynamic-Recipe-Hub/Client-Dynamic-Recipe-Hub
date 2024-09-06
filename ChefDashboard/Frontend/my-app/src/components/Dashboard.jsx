@@ -1,8 +1,9 @@
 // src/components/AdminDashboard.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import RecipeList from './RecipeList';
 import RecipeForm from './RecipeForm';
 import RecipeDetails from './RecipeDetail';
+
 
 const AdminDashboard = () => {
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
@@ -24,8 +25,8 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="container p-4 mx-auto">
+      <h1 className="mb-6 text-3xl font-bold">Admin Dashboard</h1>
       {viewMode === 'list' && (
         <RecipeList onEdit={handleEdit} onView={handleView} />
       )}

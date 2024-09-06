@@ -7,7 +7,8 @@ const chefSchema = new mongoose.Schema({
     image: { type: String },
     bio: String,
     isApproved: { type: Boolean, default: false },
-    earnings: { type: Number, default: 0 }
+    earnings: { type: Number, default: 0 },
+    response: { type: String },
 });
 
 const Chef = mongoose.model('Chef', chefSchema);
