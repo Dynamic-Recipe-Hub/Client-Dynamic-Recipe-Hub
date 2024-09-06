@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
 const ChefCard = ({ name, image, bio }) => (
   <div className="w-96 relative bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-[0.99] hover:shadow-xl">
@@ -14,7 +14,6 @@ const ChefCard = ({ name, image, bio }) => (
     </div>
   </div>
 );
-
 
 function AllChef() {
   const [chefs, setChefs] = useState([]);
@@ -34,9 +33,10 @@ function AllChef() {
   }, []);
 
   // Function to handle click on a card
-  const handleCardClick = (chefId) => {
+  const handleCardClick = (chefId, chefName) => {
     // Save the chefId to sessionStorage
     sessionStorage.setItem("selectedChefId", chefId);
+    sessionStorage.setItem("selectedChefName", chefName);
     navigate(`/Catalogdishes`);
   };
 
@@ -45,19 +45,39 @@ function AllChef() {
       <Header />
       <div className="bg-[#f1e4cf] min-h-screen flex flex-col items-center justify-center py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Our Talented Chefs</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            Our Talented Chefs
+          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover the culinary masterpieces created by our talented chefs, each bringing unique flavors and exceptional skills to the table.
+            Discover the culinary masterpieces created by our talented chefs,
+            each bringing unique flavors and exceptional skills to the table.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-8">
           {chefs.map((chef) => (
             <div
               key={chef._id}
-              onClick={() => handleCardClick(chef._id)}
-              className="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer transform transition duration-500 hover:scale-105"
+              className="bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-2xl relative group"
+              onClick={() => handleCardClick(chef._id, chef.name)}
             >
-              <ChefCard name={chef.name} image={chef.image} bio={chef.bio} />
+              <div className="relative">
+                <img
+                  src={chef.image}
+                  alt={chef.name}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-20 transition duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                  <span className="text-white text-lg font-semibold px-4 py-2 bg-[#8C6D46] bg-opacity-75 rounded-full">
+                    Show details
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl  font-bold text-[#8C6D46] mb-2">
+                  {chef.name}
+                </h3>
+                <p className="text-[#B0956E] text-sm ">Click to learn more</p>
+              </div>
             </div>
           ))}
         </div>
