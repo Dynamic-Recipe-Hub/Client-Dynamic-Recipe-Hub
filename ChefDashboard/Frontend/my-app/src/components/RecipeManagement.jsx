@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import api from '../api/axios';
 
 const RecipeManagement = () => {
@@ -61,13 +61,13 @@ const RecipeManagement = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Recipe Management</h1>
+      <h1 className="mb-6 text-2xl font-bold">Recipe Management</h1>
 
       {/* Add New Recipe Form */}
-      <form onSubmit={handleAddRecipe} className="mb-8 p-6 bg-white rounded shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Add New Recipe</h2>
+      <form onSubmit={handleAddRecipe} className="p-6 mb-8 bg-white rounded shadow-md">
+        <h2 className="mb-4 text-xl font-semibold">Add New Recipe</h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Title</label>
+          <label className="block mb-2 text-sm font-medium">Title</label>
           <input
             type="text"
             name="title"
@@ -78,7 +78,7 @@ const RecipeManagement = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Instructions</label>
+          <label className="block mb-2 text-sm font-medium">Instructions</label>
           <textarea
             name="instructions"
             value={newRecipe.instructions}
@@ -88,7 +88,7 @@ const RecipeManagement = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Cooking Time (in minutes)</label>
+          <label className="block mb-2 text-sm font-medium">Cooking Time (in minutes)</label>
           <input
             type="number"
             name="cookingTime"
@@ -99,7 +99,7 @@ const RecipeManagement = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Cuisine</label>
+          <label className="block mb-2 text-sm font-medium">Cuisine</label>
           <input
             type="text"
             name="cuisine"
@@ -111,19 +111,19 @@ const RecipeManagement = () => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
         >
           Add Recipe
         </button>
       </form>
 
       {/* Recipe List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {recipes.map((recipe) => (
           <div key={recipe._id} className="p-6 bg-white rounded shadow-md">
-            <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
-            <p className="text-sm mb-2">Cuisine: {recipe.cuisine}</p>
-            <p className="text-sm mb-4">Cooking Time: {recipe.cookingTime} minutes</p>
+            <h2 className="mb-2 text-xl font-semibold">{recipe.title}</h2>
+            <p className="mb-2 text-sm">Cuisine: {recipe.cuisine}</p>
+            <p className="mb-4 text-sm">Cooking Time: {recipe.cookingTime} minutes</p>
             <div className="mb-4">
               <h3 className="font-semibold">Instructions</h3>
               <p className="text-sm">{recipe.instructions}</p>
@@ -131,12 +131,12 @@ const RecipeManagement = () => {
             <div className="flex space-x-4">
               <button
                 onClick={() => handleDeleteRecipe(recipe._id)}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
               >
                 Delete
               </button>
               {/* Add Edit Button with similar functionality */}
-              {/* <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</button> */}
+              {/* <button className="px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600">Edit</button> */}
             </div>
           </div>
         ))}

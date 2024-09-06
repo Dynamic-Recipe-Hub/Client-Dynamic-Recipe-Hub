@@ -69,6 +69,7 @@ const GetDish = async (req, res) => {
 
     const dishes = await Dish.find(query)
       .populate('cuisine', 'name')
+      .populate('chef', 'name email image')
       .skip(skip)
       .limit(limit);
 

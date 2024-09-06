@@ -41,8 +41,8 @@ const getAllCuisines = async (req, res) => {
     const cuisines = await Cuisine.find();
 
     // Respond with the list of cuisines
-    res.status(200).json(cuisines);
-  } catch (error) {
+    res.status(200).json({ message: "Cuisines retrieved successfully", cuisine: cuisines });
+    } catch (error) {
     // Handle any errors that occur during the process
     console.error('Error fetching cuisines:', error);
     res.status(500).json({ message: 'Internal server error' });
