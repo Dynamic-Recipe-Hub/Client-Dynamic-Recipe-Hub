@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaThumbsUp,
-  FaComment,
-  FaShare,
-  FaFlag,
-  FaReply,
-} from "react-icons/fa";
+  ThumbsUp,
+  MessageSquare,
+  Share2,
+  Flag,
+  Clock,
+  ChevronRight,
+} from "lucide-react";
 import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 
-const Recipesdetail = () => {
+const RecipeDetail = () => {
   const [recipe, setRecipe] = useState(null);
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -21,16 +22,35 @@ const Recipesdetail = () => {
 
   useEffect(() => {
     const storedRecipe = JSON.parse(sessionStorage.getItem("selectedRecipe"));
-    if (storedRecipe) {
-      setRecipe(storedRecipe);
-      // استخدام طول المصفوفة ratings[0].likes إذا كانت موجودة، وإلا استخدام 0
-      setLikes(storedRecipe.ratings[0]?.likes?.length || 0);
-      // هنا يمكنك إضافة منطق لتحديد ما إذا كان المستخدم الحالي قد أعجب بالوصفة
-      setIsLiked(false); // يجب تحديث هذا بناءً على حالة إعجاب المستخدم الحالي
-      setComments(storedRecipe.ratings[0]?.comments || []);
+    if (!storedRecipe || !storedRecipe._id) {
+      console.error("Recipe not found in sessionStorage");
+      return;
     }
-  }, []);
 
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1001/api/recipe/${storedRecipe._id}`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        const data = response.data;
+        setRecipe(data);
+        setLikes(data.ratings[0]?.likes?.length || 0);
+        // Check if the user has liked this recipe before
+        const isLiked =
+          localStorage.getItem(`liked_${storedRecipe._id}`) === "true";
+        setIsLiked(isLiked);
+        setComments(data.ratings[0]?.comments || []);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, []);
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (newComment.trim()) {
@@ -40,6 +60,9 @@ const Recipesdetail = () => {
           {
             text: newComment,
             parentId: replyTo,
+          },
+          {
+            withCredentials: true,
           }
         );
         setComments(response.data);
@@ -58,24 +81,36 @@ const Recipesdetail = () => {
   const handleLike = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:1001/api/recipe/${recipe._id}/like`
+        `http://localhost:1001/api/recipe/${recipe._id}/like`,
+        {},
+        {
+          withCredentials: true,
+        }
       );
       setLikes(response.data.likes);
-      setIsLiked(!isLiked);
+      const newLikeState = !isLiked;
+      setIsLiked(newLikeState);
+      // Store the like state in localStorage
+      localStorage.setItem(`liked_${recipe._id}`, newLikeState.toString());
     } catch (error) {
       console.error("Failed to update like:", error);
     }
   };
-
   const handleShare = async () => {
     try {
-      await axios.put(`http://localhost:1001/api/recipe/${recipe._id}/share`);
+      await axios.put(
+        `http://localhost:1001/api/recipe/${recipe._id}/share`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       if (navigator.share) {
         navigator
           .share({
             title: recipe.title,
-            text: `Check out this recipe الحق على ابو عبد الرحمن: ${recipe.title} ${recipe.images[0]}`,
+            text: `Check out this recipe: ${recipe.title}`,
             url: window.location.href,
           })
           .then(() => console.log("Successful share"))
@@ -107,9 +142,15 @@ const Recipesdetail = () => {
           Swal.showValidationMessage("Please select a reason for reporting");
         } else {
           return axios
-            .put(`http://localhost:1001/api/recipe/${recipe._id}/report`, {
-              reason,
-            })
+            .put(
+              `http://localhost:1001/api/recipe/${recipe._id}/report`,
+              {
+                reason,
+              },
+              {
+                withCredentials: true,
+              }
+            )
             .then((response) => {
               if (response.status !== 200) {
                 throw new Error(response.statusText);
@@ -133,90 +174,130 @@ const Recipesdetail = () => {
     });
   };
 
-  if (!recipe) return <div>Recipe not found</div>;
+  if (!recipe)
+    return <div className="text-center p-8 text-gray-600">Loading...</div>;
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">
-        {recipe.title}
-      </h1>
-      {recipe.images && recipe.images.length > 0 && (
-        <img
-          src={recipe.images[0]}
-          alt={recipe.title}
-          className="w-full h-64 object-cover mb-4"
-        />
-      )}
-      <h2 className="text-2xl font-semibold mb-4">Ingredients</h2>
-      <ul className="list-disc pl-5">
-        {recipe.ingredients.map((ingredient) => (
-          <li key={ingredient._id}>
-            {ingredient.name} - {ingredient.quantity}
-          </li>
-        ))}
-      </ul>
-      <h2 className="text-2xl font-semibold mb-4">Instructions</h2>
-      <p>{recipe.instructions}</p>
-      <h2 className="text-2xl font-semibold mb-4">Cooking Time</h2>
-      <p>{recipe.cookingTime} minutes</p>
+      <div className="bg-white shadow-xl rounded-xl overflow-hidden">
+        <div className="relative">
+          {recipe.images && recipe.images.length > 0 && (
+            <img
+              src={recipe.images[0]}
+              alt={recipe.title}
+              className="w-full h-80 object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+          <h1 className="absolute bottom-4 left-6 text-4xl font-bold text-white">
+            {recipe.title}
+          </h1>
+        </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-center space-x-4 mt-6">
-        <button onClick={handleLike} className="flex items-center space-x-2">
-          <FaThumbsUp color={isLiked ? "blue" : "gray"} />
-          <span>{likes}</span>
-        </button>
-        <button
-          onClick={handleCommentSubmit}
-          className="flex items-center space-x-2"
-        >
-          <FaComment /> <span>Comment</span>
-        </button>
-        <button onClick={handleShare} className="flex items-center space-x-2">
-          <FaShare /> <span>Share</span>
-        </button>
-        <button onClick={handleReport} className="flex items-center space-x-2">
-          <FaFlag /> <span>Report</span>
-        </button>
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center text-gray-600">
+              <Clock className="w-5 h-5 mr-2" />
+              <span>{recipe.cookingTime} minutes</span>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleLike}
+                className={`flex items-center space-x-2 ${
+                  isLiked ? "text-pink-500" : "text-gray-600"
+                } hover:text-pink-500 transition`}
+              >
+                <ThumbsUp className="w-5 h-5" />
+                <span>{likes}</span>
+              </button>
+              <button
+                onClick={handleShare}
+                className="text-gray-600 hover:text-blue-500 transition"
+              >
+                <Share2 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleReport}
+                className="text-gray-600 hover:text-red-500 transition"
+              >
+                <Flag className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                Ingredients
+              </h2>
+              <ul className="space-y-2">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <li key={index} className="flex items-center text-gray-700">
+                    <ChevronRight className="w-4 h-4 mr-2 text-green-500" />
+                    <span>
+                      {ingredient.name} - {ingredient.quantity}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                Instructions
+              </h2>
+              <p className="text-gray-700 whitespace-pre-line">
+                {recipe.instructions}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Comments Section */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-        <form onSubmit={handleCommentSubmit}>
+      <div className="mt-8 bg-white shadow-xl rounded-xl p-6">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Comments</h2>
+        <form onSubmit={handleCommentSubmit} className="mb-6">
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Write a comment..."
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
           ></textarea>
           {replyTo !== null && (
-            <div>
+            <div className="mt-2 text-sm text-gray-600">
               Replying to comment ID: {replyTo}
-              <button onClick={() => setReplyTo(null)}>Cancel</button>
+              <button
+                onClick={() => setReplyTo(null)}
+                className="ml-2 text-blue-600 hover:text-blue-800"
+              >
+                Cancel
+              </button>
             </div>
           )}
           <button
             type="submit"
-            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+            className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            {replyTo === null ? "Comment" : "Reply"}
+            {replyTo === null ? "Post Comment" : "Send Reply"}
           </button>
         </form>
-        <div className="mt-4">
+        <div className="space-y-4">
           {comments.map((comment) => (
-            <div key={comment._id} className="mb-4 border p-2 rounded">
-              <p>{comment.text}</p>
+            <div key={comment._id} className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-gray-800 mb-2">{comment.user.name}</p>
+              <p className="text-gray-800 mb-2">{comment.text}</p>
               <button
                 onClick={() => handleReply(comment._id)}
-                className="text-sm text-blue-500"
+                className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
               >
-                <FaReply /> Reply
+                <MessageSquare className="w-4 h-4 mr-1" /> Reply
               </button>
               {comment.replies &&
                 comment.replies.map((reply) => (
-                  <div key={reply._id} className="ml-4 mt-2 border-l-2 pl-2">
-                    <p>{reply.text}</p>
+                  <div
+                    key={reply._id}
+                    className="ml-4 mt-2 bg-white p-3 rounded-lg border-l-2 border-blue-400"
+                  >
+                    <p className="text-gray-700">{reply.text}</p>
                   </div>
                 ))}
             </div>
@@ -227,4 +308,4 @@ const Recipesdetail = () => {
   );
 };
 
-export default Recipesdetail;
+export default RecipeDetail;
