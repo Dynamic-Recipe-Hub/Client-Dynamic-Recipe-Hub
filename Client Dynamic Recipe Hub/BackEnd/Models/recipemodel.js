@@ -44,6 +44,7 @@ const recipeSchema = new mongoose.Schema({
   ratings: {
     type: [
       {
+        isliked: [{ type: Boolean, default: false }],
         likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
         comments: [
           {

@@ -5,5 +5,5 @@ const dishController = require("../Controllers/reviewdish");
 router.put("/:id/like", dishController.likeDish);
 router.put("/:id/comment", dishController.addComment);
 router.put("/:id/report", dishController.reportdish);
-
+router.get("/:id", dishController.getrecipe);
 module.exports = router;

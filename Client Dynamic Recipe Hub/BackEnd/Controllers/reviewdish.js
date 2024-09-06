@@ -1,6 +1,22 @@
 const Dish = require("../models/DishModel");
+const users = require("../models/UserModels");
 
-const testUserId = "66d6b172915efaec939b6973";
+const testUserId = "66d8584c49afd5b0f4ff0b2e";
+exports.getrecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const records = await Dish.findById(id).populate("ratings.comments.user");
+    // تحقق إذا لم يتم العثور على أي وصفة
+    if (!records || records.length === 0) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 exports.likeDish = async (req, res) => {
   try {
     const dish = await Dish.findById(req.params.id);

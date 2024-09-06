@@ -6,4 +6,5 @@ router.put("/:id/like", recipeController.likeRecipe);
 router.put("/:id/comment", recipeController.addComment);
 router.put("/:id/report", recipeController.reportRecipe);
 router.put("/:id/share", recipeController.shareRecipe);
+router.get("/:id", recipeController.getrecipe);
 module.exports = router;
