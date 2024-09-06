@@ -6,11 +6,15 @@ import {
   Flag,
   Clock,
   ChevronRight,
+  Info,
+  Send,
+  PlusCircle,
 } from "lucide-react";
 import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-
+import Header from "../Components/Header/Header";
+import Footer from "../Components/Footer/Footer";
 const RecipeDetail = () => {
   const [recipe, setRecipe] = useState(null);
   const [likes, setLikes] = useState(0);
@@ -178,133 +182,182 @@ const RecipeDetail = () => {
     return <div className="text-center p-8 text-gray-600">Loading...</div>;
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-xl rounded-xl overflow-hidden">
-        <div className="relative">
-          {recipe.images && recipe.images.length > 0 && (
-            <img
-              src={recipe.images[0]}
-              alt={recipe.title}
-              className="w-full h-80 object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-          <h1 className="absolute bottom-4 left-6 text-4xl font-bold text-white">
-            {recipe.title}
-          </h1>
-        </div>
+    <>
+      <Header />
+      <div className="container mx-auto p-6 bg-[#F5F0E1] min-h-screen">
+        <div id="componentToShare">
+          <div className="bg-[#FFF4E6] shadow-lg rounded-xl overflow-hidden">
+            <div className="relative">
+              {recipe.images && recipe.images.length > 0 && (
+                <img
+                  src={recipe.images[0]}
+                  alt={recipe.title}
+                  className="w-full h-80 object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#3F2A1D] to-transparent"></div>
+              <h1 className="absolute bottom-4 left-6 text-4xl font-bold text-white">
+                {recipe.title}
+              </h1>
+            </div>
 
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center text-gray-600">
-              <Clock className="w-5 h-5 mr-2" />
-              <span>{recipe.cookingTime} minutes</span>
-            </div>
-            <div className="flex space-x-4">
-              <button
-                onClick={handleLike}
-                className={`flex items-center space-x-2 ${
-                  isLiked ? "text-pink-500" : "text-gray-600"
-                } hover:text-pink-500 transition`}
-              >
-                <ThumbsUp className="w-5 h-5" />
-                <span>{likes}</span>
-              </button>
-              <button
-                onClick={handleShare}
-                className="text-gray-600 hover:text-blue-500 transition"
-              >
-                <Share2 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleReport}
-                className="text-gray-600 hover:text-red-500 transition"
-              >
-                <Flag className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-                Ingredients
-              </h2>
-              <ul className="space-y-2">
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="flex items-center text-gray-700">
-                    <ChevronRight className="w-4 h-4 mr-2 text-green-500" />
-                    <span>
-                      {ingredient.name} - {ingredient.quantity}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-                Instructions
-              </h2>
-              <p className="text-gray-700 whitespace-pre-line">
-                {recipe.instructions}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 bg-white shadow-xl rounded-xl p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Comments</h2>
-        <form onSubmit={handleCommentSubmit} className="mb-6">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write a comment..."
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-          ></textarea>
-          {replyTo !== null && (
-            <div className="mt-2 text-sm text-gray-600">
-              Replying to comment ID: {replyTo}
-              <button
-                onClick={() => setReplyTo(null)}
-                className="ml-2 text-blue-600 hover:text-blue-800"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          <button
-            type="submit"
-            className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-          >
-            {replyTo === null ? "Post Comment" : "Send Reply"}
-          </button>
-        </form>
-        <div className="space-y-4">
-          {comments.map((comment) => (
-            <div key={comment._id} className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-gray-800 mb-2">{comment.user.name}</p>
-              <p className="text-gray-800 mb-2">{comment.text}</p>
-              <button
-                onClick={() => handleReply(comment._id)}
-                className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
-              >
-                <MessageSquare className="w-4 h-4 mr-1" /> Reply
-              </button>
-              {comment.replies &&
-                comment.replies.map((reply) => (
-                  <div
-                    key={reply._id}
-                    className="ml-4 mt-2 bg-white p-3 rounded-lg border-l-2 border-blue-400"
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center text-2xl font-semibold text-[#D2691E]">
+                  <Clock className="w-6 h-6 mr-1" />
+                  <span>{recipe.cookingTime} minutes</span>
+                </div>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={handleLike}
+                    className={`flex items-center space-x-2 ${
+                      isLiked ? "text-pink-500" : "text-gray-600"
+                    } hover:text-pink-500 transition`}
                   >
-                    <p className="text-gray-700">{reply.text}</p>
-                  </div>
-                ))}
+                    <ThumbsUp className="w-5 h-5" />
+                    <span>{likes}</span>
+                  </button>
+                  <button
+                    onClick={handleShare}
+                    className="text-gray-600 hover:text-blue-500 transition"
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleReport}
+                    className="text-gray-600 hover:text-red-500 transition"
+                  >
+                    <Flag className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4 text-[#4E3B2A] flex items-center">
+                    <ChevronRight className="w-6 h-6 mr-2 text-[#8B4513]" />
+                    Ingredients
+                  </h2>
+                  <ul className="space-y-2">
+                    {recipe.ingredients.map((ingredient, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center text-[#5D3A1A]"
+                      >
+                        <ChevronRight className="w-4 h-4 mr-2 text-green-500" />
+                        <span>
+                          {ingredient.name} - {ingredient.quantity}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4 text-[#4E3B2A] flex items-center">
+                    <Info className="w-6 h-6 mr-2 text-[#8B4513]" />
+                    Instructions
+                  </h2>
+                  <p className="text-[#5D3A1A] whitespace-pre-line">
+                    {recipe.instructions}
+                  </p>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div className="mt-8 bg-[#FFF4E6] shadow-lg rounded-xl p-6">
+          <h2 className="text-2xl font-semibold mb-4 text-[#4E3B2A] flex items-center">
+            <MessageSquare className="w-6 h-6 mr-2 text-[#8B4513]" />
+            Comments
+          </h2>
+          <form
+            onSubmit={handleCommentSubmit}
+            className="flex items-center space-x-2 mb-6"
+          >
+            <input
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="flex-grow p-3 border border-[#D2B48C] rounded-full focus:outline-none focus:ring-2 focus:ring-[#8B4513] transition"
+              placeholder="Write a comment..."
+            />
+            <button
+              type="submit"
+              className="p-3 bg-[#8B4513] text-white rounded-full hover:bg-[#6F3F2A] transition"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </form>
+
+          <div className="space-y-6">
+            {comments.length === 0 ? (
+              <p className="text-gray-600">No comments yet.</p>
+            ) : (
+              comments.map((comment) => (
+                <div
+                  key={comment._id}
+                  className="bg-white rounded-lg shadow-sm p-4"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="w-full">
+                      <p className="font-semibold text-[#4E3B2A]">
+                        {comment.user.name}
+                      </p>
+
+                      <p className="mt-1 bg-[#F8F8F8] py-4 rounded-lg pl-4 font-bold text-[#5D3A1A]">{comment.text}</p>
+                    </div>
+                    <button
+                      onClick={() => handleReply(comment._id)}
+                      className="text-[#8B4513] hover:underline flex items-center space-x-1"
+                    >
+                      <PlusCircle className="w-4 h-4" />
+                      <span>Reply</span>
+                    </button>
+                  </div>
+
+                  {replyTo === comment._id && (
+                    <form
+                      onSubmit={(e) => handleCommentSubmit(e, comment._id)}
+                      className="mt-4 flex items-center space-x-2"
+                    >
+                      <input
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className="flex-grow p-2 border border-[#D2B48C] rounded-full focus:outline-none focus:ring-2 focus:ring-[#8B4513] transition"
+                        placeholder="Write a reply..."
+                      />
+                      <button
+                        type="submit"
+                        className="p-2 bg-[#8B4513] text-white rounded-full hover:bg-[#6F3F2A] transition"
+                      >
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </form>
+                  )}
+
+                  {comment.replies && comment.replies.length > 0 && (
+                    <div className="mt-4 ml-6 space-y-4 border-l-2 pl-3 border-solid border-[#6F3F2A]">
+                      {comment.replies.map((reply) => (
+                        <div
+                          key={reply._id}
+                          className="bg-[#F8F8F8] rounded-lg p-3"
+                        >
+                          <p className="font-semibold text-[#4E3B2A]">
+                            {reply.authorName}
+                          </p>
+                          <p className="mt-1 text-[#5D3A1A]">{reply.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
