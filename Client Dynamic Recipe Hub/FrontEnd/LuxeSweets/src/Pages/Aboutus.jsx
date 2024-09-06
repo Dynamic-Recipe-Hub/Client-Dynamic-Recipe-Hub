@@ -93,37 +93,36 @@ const AboutUs = () => {
               {[
                 {
                   name: "Zeyad",
-                  role: "Head Baker",
+                  role: "Product Owner ",
                   image:
                     "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
+                },
+                {
+                  name: "ABDALRAHMAN",
+
+                  role: "Scrum Master",
+                  image:
+                    "https://media.discordapp.net/attachments/1239307079853019276/1281229483759636502/1718722252682.png?ex=66daf571&is=66d9a3f1&hm=e5b45ceead43e705077e30095992ed1a6047d7d3a8d0a745e3db99c1a77a9e03&=&format=webp&quality=lossless&width=250&height=250",
+                },
+                {
+                  name: "Sondos ",
+                  role: "Quality Assurance",
+                  image: "",
+                },
+                {
+                  name: "abed al majeed ",
+                  role: " Developer ",
+                  image:
+                    "https://media.discordapp.net/attachments/1279794719647469711/1281231601950392320/FB_IMG_1725539798781.jpg?ex=66daf76a&is=66d9a5ea&hm=b1355510ca4b43a6330859dc2a32b22e3603451bbb1b02aaea128abdbf588adc&=&format=webp&width=666&height=662",
                 },
                 {
                   name: "Noor",
-                  role: "Pastry Chef",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
+                  role: " Developer",
+                  image: "",
                 },
                 {
-                  name: "Abd",
-                  role: "Cake Decorator",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Ali",
-                  role: "Sous Chef",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Sara",
-                  role: "Marketing Manager",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Rami",
-                  role: "Sales Manager",
+                  name: "Hashem",
+                  role: "Developer ",
                   image:
                     "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
                 },
@@ -135,7 +134,6 @@ const AboutUs = () => {
                   <div className="bg-white rounded-lg shadow-lg p-6 text-center">
                     <img
                       src={member.image}
-                      alt={member.name}
                       className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
                       style={{
                         border: "4px solid #5f4b3a",
