@@ -13,6 +13,7 @@ import {
   Info,
   Send,
   PlusCircle,
+  Star,
 } from "lucide-react";
 import axios from "axios";
 import Header from "../Components/Header/Header";
@@ -21,6 +22,8 @@ const DishDetail = () => {
   const [dessert, setDessert] = useState(null);
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [Favorites, setFavorites] = useState(0);
+  const [isFavorites, setIsFavorites] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState(null);
@@ -41,10 +44,16 @@ const DishDetail = () => {
         const data = response.data;
         setDessert(data);
         setLikes(data.ratings[0]?.likes?.length || 0);
+        setFavorites(data.ratings[0]?.Favorites?.length || 0);
 
         // Check if the user has liked this dish before
         const likedStatus = sessionStorage.getItem(`liked_${storedRecipe._id}`);
         setIsLiked(likedStatus === "true");
+
+        const FavoritesStatus = sessionStorage.getItem(
+          `Favorites_${storedRecipe._id}`
+        );
+        setIsFavorites(FavoritesStatus === "true");
         setComments(data.ratings[0]?.comments || []);
       } catch (e) {
         console.log(e);
@@ -71,6 +80,30 @@ const DishDetail = () => {
 
       // Store the like status in sessionStorage
       sessionStorage.setItem(`liked_${dessert._id}`, newLikedStatus.toString());
+    } catch (error) {
+      console.error("Failed to update like:", error);
+    }
+  };
+  const handleFavorites = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:1001/api/dish/${dessert._id}/Favorites`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setFavorites(response.data.Favorites);
+
+      // Toggle the like status
+      const newFavoritesStatus = !isFavorites;
+      setIsFavorites(newFavoritesStatus);
+
+      // Store the like status in sessionStorage
+      sessionStorage.setItem(
+        `Favorites_${dessert._id}`,
+        newFavoritesStatus.toString()
+      );
     } catch (error) {
       console.error("Failed to update like:", error);
     }
@@ -189,7 +222,7 @@ const DishDetail = () => {
 
   return (
     <>
-    <Header/>
+      <Header />
       <div className="container mx-auto p-6 bg-[#F5F0E1] min-h-screen">
         <div id="componentToShare">
           <div className="bg-[#FFF4E6] shadow-lg rounded-xl overflow-hidden">
@@ -212,6 +245,18 @@ const DishDetail = () => {
                   <span>{dessert.price.toFixed(2)}</span>
                 </div>
                 <div className="flex space-x-4">
+                <button
+                    onClick={handleFavorites}
+                    className={`flex items-center space-x-2 ${
+                      isFavorites ? "text-[#cac22d]" : "text-gray-600"
+                    } hover:text-pink-500 transition`}
+                  >
+                    <Star
+                      className={`w-5 h-5 ${
+                        isFavorites ? "fill-[#fff200]" : ""
+                      }`}
+                    />
+                  </button>
                   <button
                     onClick={handleLike}
                     className={`flex items-center space-x-2 ${
@@ -301,10 +346,12 @@ const DishDetail = () => {
                 >
                   <div className="flex items-start justify-between">
                     <div className="w-full">
-                    <p className="font-semibold text-[#4E3B2A]">
+                      <p className="font-semibold text-[#4E3B2A]">
                         {comment.user.name}
                       </p>
-                      <p className="mt-1 bg-[#F8F8F8] py-4 rounded-lg pl-4 font-bold text-[#5D3A1A]">{comment.text}</p>
+                      <p className="mt-1 bg-[#F8F8F8] py-4 rounded-lg pl-4 font-bold text-[#5D3A1A]">
+                        {comment.text}
+                      </p>
                     </div>
                     <button
                       onClick={() => handleReply(comment._id)}
@@ -356,7 +403,7 @@ const DishDetail = () => {
           </div>
         </div>
       </div>
-    <Footer/>
+      <Footer />
     </>
   );
 };

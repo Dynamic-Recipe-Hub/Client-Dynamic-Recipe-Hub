@@ -45,6 +45,7 @@ const dishSchema = new mongoose.Schema({
     type: [
       {
         likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        Favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
         comments: [
           {
             text: String,

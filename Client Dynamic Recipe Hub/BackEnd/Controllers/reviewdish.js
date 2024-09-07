@@ -94,3 +94,43 @@ exports.reportdish = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.Favorites = async (req, res) => {
+    try {
+      const dish = await Dish.findById(req.params.id);
+      if (!dish) {
+        return res.status(404).json({ message: "dish not found" });
+      }
+  
+      const userId = req.user.id;
+      if (dish.ratings.length === 0) {
+        dish.ratings.push({});
+      }
+  
+      const FavoriteIndex = dish.ratings[0].Favorites.indexOf(userId);
+  
+      if (FavoriteIndex > -1) {
+        dish.ratings[0].Favorites.splice(FavoriteIndex, 1);
+      } else {
+        dish.ratings[0].Favorites.push(userId);
+      }
+  
+      await dish.save();
+      res.json({ Favorites: dish.ratings[0].Favorites.length });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };
+
+
+  exports.getFavorites = async (req, res) => {
+    try {
+      const Favorite = await Dish.find({ "ratings.Favorites": req.user.id });
+  
+      res.status(200).json({ Favorite });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  };
