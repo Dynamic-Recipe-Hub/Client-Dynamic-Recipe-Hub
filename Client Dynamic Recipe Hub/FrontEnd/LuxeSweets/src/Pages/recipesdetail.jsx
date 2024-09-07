@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Info,
   Send,
+  Star,
   PlusCircle,
 } from "lucide-react";
 import axios from "axios";
@@ -19,6 +20,8 @@ const RecipeDetail = () => {
   const [recipe, setRecipe] = useState(null);
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [Favorites, setFavorites] = useState(0);
+  const [isFavorites, setIsFavorites] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState(null);
@@ -94,12 +97,44 @@ const RecipeDetail = () => {
       setLikes(response.data.likes);
       const newLikeState = !isLiked;
       setIsLiked(newLikeState);
+
+      const FavoritesStatus = sessionStorage.getItem(
+        `Favorites_${storedRecipe._id}`
+      );
+      setIsFavorites(FavoritesStatus === "true");
+
       // Store the like state in localStorage
       localStorage.setItem(`liked_${recipe._id}`, newLikeState.toString());
     } catch (error) {
       console.error("Failed to update like:", error);
     }
   };
+
+  const handleFavorites = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:1001/api/recipe/${recipe._id}/Favorites`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setFavorites(response.data.Favorites);
+
+      // Toggle the like status
+      const newFavoritesStatus = !isFavorites;
+      setIsFavorites(newFavoritesStatus);
+
+      // Store the like status in sessionStorage
+      sessionStorage.setItem(
+        `Favorites_${recipe._id}`,
+        newFavoritesStatus.toString()
+      );
+    } catch (error) {
+      console.error("Failed to update like:", error);
+    }
+  };
+
   const handleShare = async () => {
     try {
       await axios.put(
@@ -208,6 +243,18 @@ const RecipeDetail = () => {
                   <span>{recipe.cookingTime} minutes</span>
                 </div>
                 <div className="flex space-x-4">
+                <button
+                    onClick={handleFavorites}
+                    className={`flex items-center space-x-2 ${
+                      isFavorites ? "text-[#cac22d]" : "text-gray-600"
+                    } hover:text-pink-500 transition`}
+                  >
+                    <Star
+                      className={`w-5 h-5 ${
+                        isFavorites ? "fill-[#fff200]" : ""
+                      }`}
+                    />
+                  </button>
                   <button
                     onClick={handleLike}
                     className={`flex items-center space-x-2 ${

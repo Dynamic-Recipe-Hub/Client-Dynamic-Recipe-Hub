@@ -123,7 +123,7 @@ function Header() {
                       </li>
                       <li>
                         <Link
-                          to="/profile"
+                          to="/Favorites"
                           className="block px-4 py-2 text-[#5f4b3a] text-center hover:bg-[#794d30] hover:opacity-50 hover:text-white transition duration-300 "
                           onClick={() => setIsDropdownOpen(false)}
                         >

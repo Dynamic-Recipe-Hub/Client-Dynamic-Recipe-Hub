@@ -113,3 +113,42 @@ exports.reportRecipe = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.Favorites = async (req, res) => {
+    try {
+      const recipe = await Recipe.findById(req.params.id);
+      if (!recipe) {
+        return res.status(404).json({ message: "recipe not found" });
+      }
+  
+      const userId = req.user.id;
+      if (recipe.ratings.length === 0) {
+        recipe.ratings.push({});
+      }
+  
+      const FavoriteIndex = recipe.ratings[0].Favorites.indexOf(userId);
+  
+      if (FavoriteIndex > -1) {
+        recipe.ratings[0].Favorites.splice(FavoriteIndex, 1);
+      } else {
+        recipe.ratings[0].Favorites.push(userId);
+      }
+  
+      await recipe.save();
+      res.json({ Favorites: recipe.ratings[0].Favorites.length });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };
+
+  exports.getFavorites = async (req, res) => {
+    try {
+      const Favorite = await Recipe.find({ "ratings.Favorites": "66d9ef1fe1b28270610d293d" });
+  
+      res.status(200).json({ Favorite });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  };

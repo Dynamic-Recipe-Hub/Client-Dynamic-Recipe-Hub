@@ -59,10 +59,10 @@ function Sidebar() {
                 </Link>
               </li>
               <li>
-                <button className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200 w-full">
+                <Link to="/Favorites" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200 w-full">
                   <Star className="mr-3" size={20} />
                   Favorites
-                </button>
+                </Link>
               </li>
             </ul>
           </nav>

@@ -16,6 +16,7 @@ import PaymentComponent from "./Pages/payment";
 import AllChef from "./Pages/AllChef";
 import CartPage from "./Pages/cartpage";
 import Orders from "./Pages/Profile/Orders";
+import Favorites from "./Pages/Profile/Favorites";
 import { OrdersProvider } from "../src/Context/OrdersContext";
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
 
               <Route path="/Orders" element={<Orders />} />
+              <Route path="/Favorites" element={<Favorites />} />
             </Routes>
           </BrowserRouter>
         </OrdersProvider>
