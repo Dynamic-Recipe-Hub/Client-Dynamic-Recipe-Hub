@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header/Header";
@@ -16,26 +16,33 @@ const getCartFromLocalStorage = () => {
 };
 
 const Catalogdishes = () => {
+  
   const [desserts, setDesserts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchTerm]);
+
+
+  
   const chefname = sessionStorage.getItem("selectedChefName");
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:1001/api/records");
+      const response = await axios.get("http://localhost:1001/api/records", {
+        params: {
+          search: searchTerm
+     
+        },
+      });
       const data = response.data;
 
-      // Get chefId from sessionStorage
       const chefId = sessionStorage.getItem("selectedChefId");
-      // Filter dishes based on chef's id
       const filteredDesserts = data.filter(
         (dessert) => dessert.chef === chefId
       );
-
       setDesserts(filteredDesserts);
     } catch (e) {
       console.log(e);
@@ -111,45 +118,62 @@ const Catalogdishes = () => {
     });
   };
 
+
+
   return (
     <>
       <Header />
-      <div className="bg-amber-50 min-h-screen">
+      <div className="min-h-screen bg-amber-50">
         <header className="bg-gradient-to-r from-[#A0785D] to-[#d3966d] text-white py-8">
-          <div className="container mx-auto px-4">
+          <div className="container px-4 mx-auto">
             <h1 className="text-5xl font-bold text-center">Luxe Sweets</h1>
-            <p className="text-center mt-3 text-amber-200 text-xl italic">
+            <p className="mt-3 text-xl italic text-center text-amber-200">
               Chef's Section {chefname}
             </p>
           </div>
+          
         </header>
 
-        <main className="container mx-auto px-4 py-16">
-          <div className="mb-12">
-            <h2 className="text-4xl font-serif font-bold text-amber-900 mb-4">
-              Our Signature Collection
-            </h2>
-            <p className="text-amber-700 text-lg">
-              {desserts.length} Decadent Creations
-            </p>
-            <select className="mt-4 w-full md:w-64 bg-amber-100 border-2 border-amber-300 text-amber-900 py-3 px-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-lg">
-              {desserts.map((dessert, index) => (
-                <option key={index}>{dessert.name}</option>
-              ))}
-            </select>
+        <main className="container px-4 py-16 pb-12 mx-auto">
+        <div className="flex justify-center mt-5">
+          <div className="relative inline-block mb-8">
+              <input
+                type="text"
+                className="px-4 py-2 text-lg font-semibold border-2 shadow-lg appearance-none rounded-2xl bg-amber-100 text-amber-900 border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                placeholder="Search by name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+              />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        
+          
+
+
+     
+          <div className="mb-20 text-center ">
+            <h2 className="mb-6 font-serif text-5xl font-extrabold text-amber-900">
+              Our Signature Collection
+            </h2>
+            <p className="mb-8 text-2xl italic text-amber-700">
+              {desserts.length} Decadent Creations
+            </p>
+            
+          </div>
+
+  
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {desserts.map((dessert, index) => (
               <div
                 key={index}
-                className="relative group bg-white rounded-2xl shadow-xl overflow-hidden transform transition duration-300 hover:scale-105"
+                className="relative overflow-hidden transition duration-300 transform bg-white shadow-xl group rounded-2xl hover:scale-105"
               >
                 <div className="relative cursor-pointer">
                   <img
                     src={dessert.images[0]}
                     alt={dessert.name}
-                    className="w-full h-64 object-cover transition-transform duration-300   "
+                    className="object-cover w-full h-64 transition-transform duration-300 "
                     onClick={() => handleCardClick(dessert)}
                   />
                   <div
@@ -157,7 +181,7 @@ const Catalogdishes = () => {
                       e.stopPropagation(); // Prevent the click event from triggering on the image
                       handleCardClick(dessert); // Add your handler for showing details here
                     }}
-                    className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100"
                   >
                     <button className="text-white font-bold py-2 px-4 rounded-full bg-[#ad856b] hover:bg-[#cf9c7b] transition duration-300 ease-in-out">
                       Show details
@@ -165,7 +189,7 @@ const Catalogdishes = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-2xl font-serif font-semibold text-amber-900 mb-3">
+                  <h3 className="mb-3 font-serif text-2xl font-semibold text-amber-900">
                     {dessert.name}
                   </h3>
                   <button
