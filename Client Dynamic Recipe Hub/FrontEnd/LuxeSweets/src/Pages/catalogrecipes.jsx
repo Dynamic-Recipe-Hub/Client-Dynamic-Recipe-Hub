@@ -47,7 +47,7 @@ const Catalogrecipes = () => {
   return (
     <>
       <Header />
-      <div className="bg-gradient-to-b from-[#F4EAD2] to-[#E6D5B8] min-h-screen">
+      <div className="bg-[#EEE9DB] from-[#F4EAD2] to-[#E6D5B8] min-h-screen">
         {/* Header and Filters */}
         <header className="bg-gradient-to-r from-[#A0785D] to-[#d3966d] text-white py-8">
           <div className="container px-4 mx-auto">
@@ -65,7 +65,7 @@ const Catalogrecipes = () => {
               <div className="relative inline-block mb-8">
                 <input
                   type="text"
-                  className="px-4 py-2 text-lg font-semibold border-2 shadow-lg appearance-none rounded-2xl bg-amber-100 text-amber-900 border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="px-4 py-2 text-lg font-semibold border-2 shadow-lg appearance-none rounded-2xl bg-[#fff7e2] text-amber-900 border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   placeholder="Search by title"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)} // Update search term

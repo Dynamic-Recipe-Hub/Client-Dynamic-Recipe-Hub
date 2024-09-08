@@ -43,7 +43,7 @@ function AllChef() {
   return (
     <>
       <Header />
-      <div className="bg-[#f1e4cf] min-h-screen flex flex-col items-center justify-center py-8">
+      <div className="bg-[#EEE9DB] min-h-screen flex flex-col items-center justify-center py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             Our Talented Chefs

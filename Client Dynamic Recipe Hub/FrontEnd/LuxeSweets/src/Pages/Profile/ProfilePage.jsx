@@ -399,28 +399,6 @@ const ProfilePage = () => {
     </div>
   )}
 </div>
-
-
-
-
-            {/* Favorites Section */}
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                Favorites
-              </h2>
-              {false ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                    <h3 className="text-lg font-bold">Series 1</h3>
-                    <p className="text-gray-700">Series description here</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-                  <p className="text-gray-500">No favorite items yet</p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>

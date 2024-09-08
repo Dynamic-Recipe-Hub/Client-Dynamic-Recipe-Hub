@@ -57,7 +57,7 @@ function Order() {
     // Calculate total profit
     const calculateTotalProfit = () => {
       const profit = payments.reduce((total, payment) => {
-        return total + (payment.items.total * 0.10); // 10% of the total price
+        return total + (payment.items.total * 0.90); // 10% of the total price
       }, 0);
       setTotalProfit(profit);
       setChefProfit(profit);
@@ -126,7 +126,7 @@ function Order() {
         </div>
 
         <div className="mb-4 text-center">
-          <p className="text-xl font-bold">Total Chef Profit (10%): ${totalProfit.toFixed(2)}</p>
+          <p className="text-xl font-bold">Total Chef Profit (90%): ${totalProfit.toFixed(2)}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 my-20 lg:grid-cols-2">
@@ -135,7 +135,7 @@ function Order() {
           ) : (
             filteredPayments.map((payment) => {
               // Calculate chef profit
-              const chefProfit = payment.items.total * 0.10;
+              const chefProfit = payment.items.total * 0.90;
 
               return (
                 <div key={payment._id} className="overflow-hidden bg-white rounded-lg shadow-lg">
@@ -173,7 +173,7 @@ function Order() {
 
                     {/* Chef Profit */}
                     <div className="flex items-center justify-between mt-2 text-xl font-bold text-gray-900">
-                      <p>Chef Profit (10%):</p>
+                      <p>Chef Profit (90%):</p>
                       <p>${chefProfit.toFixed(2)}</p>
                     </div>
 

@@ -88,7 +88,7 @@ const CartPage = () => {
   return (
      <>
       <Header />
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#f5f3f0] min-h-screen">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#EEE9DB] min-h-screen">
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 text-center text-gray-800 tracking-tight">
         Your Cart
       </h1>
@@ -168,7 +168,7 @@ const CartPage = () => {
             </h2>
             <button
               onClick={handleCheckout}
-              className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300 shadow-md text-lg"
+              className="w-full sm:w-auto bg-[#A0785D] text-white px-6 py-3 rounded-lg hover:bg-[#c49779] transition duration-300 shadow-md text-lg"
             >
               Proceed to Payment
             </button>
