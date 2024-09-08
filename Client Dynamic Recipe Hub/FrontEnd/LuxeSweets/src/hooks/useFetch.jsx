@@ -10,7 +10,6 @@ const useFetch = (url) => {
       try {
         setLoading(true);
         const response = await fetch(url, {
-          // إرسال الكوكيز مع الطلبات
           credentials: 'include',
         });
         if (!response.ok) {

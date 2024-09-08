@@ -22,7 +22,7 @@ function Sidebar() {
    
 {/**************nav ***************** */}
 
-<nav className="fixed top-0 z-40 w-full bg-[#b0956e] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav className="fixed top-0 z-40 w-full bg-[#b0956e] border-b border-gray-200 ">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
         <div className="flex items-center justify-between">
           {/* Sidebar Toggle Button */}
@@ -31,7 +31,7 @@ function Sidebar() {
             data-drawer-toggle="logo-sidebar"
             aria-controls="logo-sidebar"
             type="button"
-            className="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 "
           >
             <span className="sr-only">Open sidebar</span>
             <svg
@@ -56,7 +56,7 @@ function Sidebar() {
               className="h-10 rounded-full me-3"
               alt="Sweet Shop Logo"
             />
-            <span className="self-center text-xl font-semibold text-white sm:text-2xl whitespace-nowrap dark:text-white">
+            <span className="self-center text-xl font-semibold text-white sm:text-2xl whitespace-nowrap">
               Sweets
             </span>
           </Link>
@@ -67,7 +67,7 @@ function Sidebar() {
               aria-expanded={isOpen}
               onClick={toggleDropdown}
               type="button"
-              className="flex text-sm text-white bg-[#b0956e] rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="flex text-sm text-white bg-[#b0956e] rounded-full focus:ring-4 focus:ring-gray-300"
             >
               <span className="sr-only">Open user menu</span>
               {chefImage ? (
@@ -83,12 +83,12 @@ function Sidebar() {
 
             {/* Dropdown Menu */}
             {isOpen && (
-              <div className="absolute right-0 w-48 mt-36 bg-[#b0956e] divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
+              <div className="absolute right-0 w-48 mt-36 bg-[#b0956e] divide-y divide-gray-100 rounded shadow">
                 <div className="px-4 py-3">
-                  <p className="text-sm text-white dark:text-white">
+                  <p className="text-sm text-white">
                     {chefName}
                   </p>
-                  <p className="text-sm font-medium text-white truncate dark:text-gray-300">
+                  <p className="text-sm font-medium text-white truncate">
                     {chefEmail}
                   </p>
                 </div>
@@ -98,7 +98,7 @@ function Sidebar() {
                   <li>
                     <Link
                       to="/Login"
-                      className="block px-4 py-2 text-sm text-white hover:bg-[#cfbb9e] dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 text-sm text-white hover:bg-[#cfbb9e]"
                     >
                       Sign out
                     </Link>
@@ -112,42 +112,42 @@ function Sidebar() {
     </nav>
 {/**************end nav ***************** */}
 {/**************aside***************** */}
-<aside id="logo-sidebar" className="fixed top-0 left-0 w-64 h-screen pt-20 transition-transform -translate-x-full bg-[#b0956e] border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-        <div className="h-full px-3 pb-4 overflow-y-auto bg-[#b0956e] dark:bg-gray-800">
+<aside id="logo-sidebar" className="fixed top-0 left-0 w-64 h-screen pt-20 transition-transform -translate-x-full bg-[#b0956e] border-r border-gray-200 sm:translate-x-0  " aria-label="Sidebar">
+        <div className="h-full px-3 pb-4 overflow-y-auto bg-[#b0956e]">
           <ul className="space-y-2 font-medium">
             <li>
-              <Link to="/Dashboard" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/Dashboard')}`}>
-                <FaTachometerAlt className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/Dashboard" className={`flex items-center p-2 text-white rounded-lg  hover:bg-[#cfbb9e] group ${isActive('/Dashboard')}`}>
+                <FaTachometerAlt className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="ms-3">Dashboard</span>
               </Link>
             </li>
             <li>
-              <Link to="/recipes/new" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/recipes/new')}`}>
-                <FaPlus className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/recipes/new" className={`flex items-center p-2 text-white rounded-lg hover:bg-[#cfbb9e] group ${isActive('/recipes/new')}`}>
+                <FaPlus className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="flex-1 ms-3 whitespace-nowrap">Add Recipes</span>
               </Link>
             </li>
             <li>
-              <Link to="/AddDish" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/AddDish')}`}>
-                <FaPlus className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/AddDish" className={`flex items-center p-2 text-white rounded-lg  hover:bg-[#cfbb9e] group ${isActive('/AddDish')}`}>
+                <FaPlus className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="flex-1 ms-3 whitespace-nowrap">Add Dishes</span>
               </Link>
             </li>
             <li>
-              <Link to="/" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/')}`}>
-                <FaBook className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/" className={`flex items-center p-2 text-white rounded-lg  hover:bg-[#cfbb9e] group ${isActive('/')}`}>
+                <FaBook className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="flex-1 ms-3 whitespace-nowrap">Recipes</span>
               </Link>
             </li>
             <li>
-              <Link to="/ViewDish" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/ViewDish')}`}>
-                <FaUtensils className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/ViewDish" className={`flex items-center p-2 text-white rounded-lg hover:bg-[#cfbb9e] group ${isActive('/ViewDish')}`}>
+                <FaUtensils className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="flex-1 ms-3 whitespace-nowrap">Dishes</span>
               </Link>
             </li>
             <li>
-              <Link to="/Order" className={`flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#cfbb9e] dark:hover:bg-gray-700 group ${isActive('/Order')}`}>
-                <FaShoppingCart className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-400 dark:group-hover:text-white" />
+              <Link to="/Order" className={`flex items-center p-2 text-white rounded-lg  hover:bg-[#cfbb9e] group ${isActive('/Order')}`}>
+                <FaShoppingCart className="w-5 h-5 text-white transition duration-75  group-hover:text-gray-400 " />
                 <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
               </Link>
             </li>

@@ -173,7 +173,7 @@ const handleUpdateDish = async (e, id) => {
 <div className="relative w-3/4 mt-48 mb-20 mr-20 overflow-x-auto shadow-md sm:rounded-lg">
 
 {/**************** */}
-    <div className="flex flex-wrap items-center justify-between pb-4 space-y-4 bg-white flex-column md:flex-row md:space-y-0 dark:bg-gray-900">
+    <div className="flex flex-wrap items-center justify-between pb-4 space-y-4 bg-white flex-column md:flex-row md:space-y-0">
         {/*************Dropdowns*************** */}
       
         <div>
@@ -185,7 +185,7 @@ const handleUpdateDish = async (e, id) => {
             <label htmlFor="show-filter" className="sr-only">Filter by Show</label>
             <select
               id="show-filter"
-              className="block w-40 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="block w-40 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               value={showFilter}
               onChange={(e) => setShowFilter(e.target.value)}
             >
@@ -200,14 +200,14 @@ const handleUpdateDish = async (e, id) => {
         <div className="relative">
             <label htmlFor="table-search" className="sr-only">Search</label>
             <div className="absolute inset-y-0 flex items-center pointer-events-none rtl:inset-r-0 start-0 ps-3">
-              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
               </svg>
             </div>
             <input
               type="text"
               id="table-search-users"
-              className="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
               placeholder="Search for dishes"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
@@ -216,8 +216,8 @@ const handleUpdateDish = async (e, id) => {
     </div>
 {/*************************** */}
     
-    <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table className="w-full text-sm text-left text-gray-500 rtl:text-right">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     Show
@@ -252,13 +252,13 @@ const handleUpdateDish = async (e, id) => {
         
         <tbody>
         {filteredDishes.map(dish => (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dish._id}>
+            <tr className="bg-white border-b hover:bg-gray-50" key={dish._id}>
                    <td className="w-4 p-4">
                   <div className="flex items-center">
                     <input
                       id={`checkbox-table-search-${dish._id}`}
                       type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                       checked={dish.show}
                       onChange={(e) => handleCheckboxChange(dish._id, e)}
                     />
@@ -267,7 +267,7 @@ const handleUpdateDish = async (e, id) => {
                     </label>
                   </div>
                 </td>
-                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
                     <img className="w-10 h-10 rounded-full" src={dish.images[0]} alt="Jese image"/>
                 </th>
                 <td className="px-6 py-4">
@@ -288,7 +288,7 @@ const handleUpdateDish = async (e, id) => {
 
                 </td>
                 <td className="px-6 py-4">
-                    {dish.approved ?  <a href="#" className="font-medium text-green-600 dark:text-green-500 hover:underline">approved</a> :  <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">not approved</a>}
+                    {dish.approved ?  <a href="#" className="font-medium text-green-600 hover:underline">approved</a> :  <a href="#" className="font-medium text-red-600 hover:underline">not approved</a>}
                    
                 </td>
                 <td className="px-6 py-4">
@@ -379,30 +379,27 @@ const handleUpdateDish = async (e, id) => {
                 {/* Details Section */}
                 <div className="mt-6">
                     <div className="pb-6 border-b border-gray-200">
-                        <h1 className="mt-2 text-xl font-semibold leading-7 text-gray-800 lg:text-2xl lg:leading-6 dark:text-white">
+                        <h1 className="mt-2 text-xl font-semibold leading-7 text-gray-800 lg:text-2xl lg:leading-6">
                             {selectedDish.name}
                         </h1>
                         <div className="flex gap-7">
-                            {/* <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
-                                <span className="font-bold"> Cuisine</span> {selectedDish.cuisine.name} |
-                            </p> */}
-                            <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
+                            <p className="mt-2 leading-none text-gray-600">
                                 <span className="font-bold"> Price</span> {selectedDish.price} 
                             </p>
                           
                         </div>
                             {selectedDish.approved ? 
-                        <p className="mt-2 text-sm font-semibold leading-7 text-green-500 lg:text-sm lg:leading-6 dark:text-white">approved</p> : <p className="mt-2 text-sm font-semibold leading-7 text-red-500 lg:text-sm lg:leading-6 dark:text-white">not approved</p>}
-                        <p className="mt-2 text-sm leading-none text-gray-600 dark:text-gray-300">
+                        <p className="mt-2 text-sm font-semibold leading-7 text-green-500 lg:text-sm lg:leading-6">approved</p> : <p className="mt-2 text-sm font-semibold leading-7 text-red-500 lg:text-sm lg:leading-6">not approved</p>}
+                        <p className="mt-2 text-sm leading-none text-gray-600 ">
                             <span className="font-bold"> Available Quantity</span> {selectedDish.availableQuantity}
                         </p>
-                        <p className="mt-2 text-sm leading-none text-gray-600 dark:text-gray-300">
+                        <p className="mt-2 text-sm leading-none text-gray-600 ">
                             <span className="font-bold"> Size</span> {selectedDish.size}
                         </p>
-                        <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
+                        <p className="mt-2 leading-none text-gray-600 ">
                             <span className="font-bold"> orderCount</span> {selectedDish.orderCount}
                         </p>
-                        <p className="mt-2 leading-none text-gray-600 dark:text-gray-300">
+                        <p className="mt-2 leading-none text-gray-600">
                             <span className="font-bold"> description</span> {selectedDish.description}
                         </p>
                     </div>

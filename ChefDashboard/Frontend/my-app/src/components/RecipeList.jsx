@@ -99,7 +99,7 @@ const RecipeList = () => {
       </div>
 
       <div className="relative w-3/4 mt-48 mr-20 overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex flex-wrap items-center justify-between pb-4 space-y-4 bg-white flex-column md:flex-row md:space-y-0 dark:bg-gray-900">
+        <div className="flex flex-wrap items-center justify-between pb-4 space-y-4 bg-white flex-column md:flex-row md:space-y-0">
           <div className="flex items-center space-x-4">
             <button onClick={handleAddNewRecipe} className="px-4 py-2 bg-[#b0956e] text-white rounded hover:bg-[#a17e58] transition">
               Add New Recipe
@@ -114,8 +114,8 @@ const RecipeList = () => {
           </div>
         </div>
 
-        <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500 rtl:text-right">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" className="p-4">
                 <div className="flex items-center">
@@ -133,7 +133,7 @@ const RecipeList = () => {
           </thead>
           <tbody>
             {recipes.map(recipe => (
-              <tr key={recipe._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr key={recipe._id} className="bg-white border-b hover:bg-gray-50 ">
                 <td className="w-4 p-4">
                   <div className="flex items-center">
                     <input
@@ -141,7 +141,7 @@ const RecipeList = () => {
                       type="checkbox"
                       checked={recipe.show}
                       onChange={(event) => handleCheckboxChange(recipe._id, event)}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500   focus:ring-2 "
                     />
                     <label htmlFor={`checkbox-table-search-${recipe._id}`} className="sr-only">checkbox</label>
                   </div>
@@ -158,14 +158,14 @@ const RecipeList = () => {
                     )}
                   </div>
                 </td>
-                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap ">
                   <div className="ps-3">
                     <div className="text-base font-semibold">{recipe.title}</div>
                   </div>
                 </th>
 
                 <td className="px-6 py-4">
-                  {recipe.isApproved ? <a href="#" className="font-medium text-green-600 dark:text-green-500 hover:underline">approved</a> : <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">not approved</a>}
+                  {recipe.isApproved ? <a href="#" className="font-medium text-green-600  hover:underline">approved</a> : <a href="#" className="font-medium text-red-600 hover:underline">not approved</a>}
                 </td>
                 <td className="px-6 py-4">{recipe.cookingTime} mins</td>
 
