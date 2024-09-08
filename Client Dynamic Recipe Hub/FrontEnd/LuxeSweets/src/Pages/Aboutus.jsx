@@ -93,39 +93,38 @@ const AboutUs = () => {
               {[
                 {
                   name: "Zeyad",
-                  role: "Head Baker",
+                  role: "Product Owner ",
                   image:
                     "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
+                },
+                {
+                  name: "ABDALRAHMAN",
+
+                  role: "Scrum Master",
+                  image:
+                    "https://cdn.discordapp.com/attachments/1239307079853019276/1281229483759636502/1718722252682.png?ex=66dee9f1&is=66dd9871&hm=b912f5f6e3ed00237da02eee733742d091c81f706da50cf1ca91930f70d4faf8&",
+                },
+                {
+                  name: "Sondos ",
+                  role: "Quality Assurance",
+                  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s",
+                },
+                {
+                  name: "abed al majeed ",
+                  role: " Developer ",
+                  image:
+                    "https://cdn.discordapp.com/attachments/1279794719647469711/1281231601950392320/FB_IMG_1725539798781.jpg?ex=66de432a&is=66dcf1aa&hm=0cd9611909fdbbdb6027a9f74fdadbdcf87e15911244dd28895a3c3fa8fa3506&",
                 },
                 {
                   name: "Noor",
-                  role: "Pastry Chef",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
+                  role: " Developer",
+                  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s",
                 },
                 {
-                  name: "Abd",
-                  role: "Cake Decorator",
+                  name: "Hashem",
+                  role: "Developer ",
                   image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Ali",
-                  role: "Sous Chef",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Sara",
-                  role: "Marketing Manager",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
-                },
-                {
-                  name: "Rami",
-                  role: "Sales Manager",
-                  image:
-                    "https://media.discordapp.net/attachments/1239307079853019276/1277876324123410452/zeyad.JPG?ex=66d8a5d1&is=66d75451&hm=f2292ad4c4e739bb3632c793b356386f13523398a5f2b81d0d7d3a93315a579a&=&format=webp&width=442&height=662",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s",
                 },
               ].map((member, index) => (
                 <div
@@ -135,8 +134,8 @@ const AboutUs = () => {
                   <div className="p-6 text-center bg-white rounded-lg shadow-lg">
                     <img
                       src={member.image}
+                      className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
                       alt={member.name}
-                      className="object-cover w-32 h-32 mx-auto mb-4 rounded-full"
                       style={{
                         border: "4px solid #5f4b3a",
                         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",

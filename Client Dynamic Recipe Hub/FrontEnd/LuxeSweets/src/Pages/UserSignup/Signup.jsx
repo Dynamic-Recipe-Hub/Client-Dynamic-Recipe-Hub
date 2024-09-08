@@ -104,7 +104,7 @@ function Signup() {
 
   return (
     <>
-      <section className="bg-[url('https://media.discordapp.net/attachments/1239307079853019276/1281226767297937522/WhatsApp_Image_2024-09-05_at_15.16.00.jpeg?ex=66daf2e9&is=66d9a169&hm=2076af14124e198d2716a339aaf830c5d791161fb607110194e63a44c4795c89&=&format=webp&width=1177&height=662')] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center">
+      <section className="bg-[#f8f4eb] bg-no-repeat bg-cover bg-center min-h-screen flex flex-col items-center justify-center">
         <Link to="/"></Link>
         <div className="w-full max-w-md p-8 bg-[#f5f3f0] mt-10 bg-opacity-80 backdrop-blur-md rounded-lg shadow-lg mb-24 transition-shadow duration-300 hover:shadow-2xl">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-[#5f4b3a] md:text-3xl mb-6 text-center">
@@ -218,6 +218,7 @@ function Signup() {
                 Login here
               </Link>
             </p>
+
             <div className="w-full mt-4">
               <GoogleLogin
                 onSuccess={handleGoogleSignupSuccess}
@@ -228,6 +229,15 @@ function Signup() {
                 icon={<FaGoogle className="mr-2" />}
               />
             </div>
+            <p className="text-sm font-light text-gray-500 text-center pt-3 border-t-2 border-[#A0785D]">
+            Are you a chef ? 
+              <Link
+                to="http://localhost:5173/Login"
+                className="font-medium text-[#a0785d] hover:underline ml-1"
+              >
+                Embark with us
+              </Link>
+            </p>
           </form>
         </div>
       </section>

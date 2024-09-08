@@ -123,7 +123,7 @@ const Catalogdishes = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-amber-50">
+      <div className="min-h-screen bg-[#EEE9DB]">
         <header className="bg-gradient-to-r from-[#A0785D] to-[#d3966d] text-white py-8">
           <div className="container px-4 mx-auto">
             <h1 className="text-5xl font-bold text-center">Luxe Sweets</h1>
@@ -139,7 +139,7 @@ const Catalogdishes = () => {
           <div className="relative inline-block mb-8">
               <input
                 type="text"
-                className="px-4 py-2 text-lg font-semibold border-2 shadow-lg appearance-none rounded-2xl bg-amber-100 text-amber-900 border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                className="px-4 py-2 text-lg font-semibold border-2 shadow-lg appearance-none rounded-2xl bg-[#fff7e2] text-amber-900 border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 placeholder="Search by name"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
