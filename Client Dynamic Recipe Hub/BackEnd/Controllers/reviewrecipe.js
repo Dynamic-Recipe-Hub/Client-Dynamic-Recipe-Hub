@@ -143,7 +143,7 @@ exports.Favorites = async (req, res) => {
 
   exports.getFavorites = async (req, res) => {
     try {
-      const Favorite = await Recipe.find({ "ratings.Favorites": "66d9ef1fe1b28270610d293d" });
+      const Favorite = await Recipe.find({ "ratings.Favorites": req.user.id });
   
       res.status(200).json({ Favorite });
     } catch (error) {
