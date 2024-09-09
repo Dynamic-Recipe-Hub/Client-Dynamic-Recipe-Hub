@@ -8,7 +8,7 @@ function Dashboard() {
   const { chefProfit } = useContext(ChefContext); 
   const [chefId, setChefId] = useState(null);
   const [orderCount, setOrderCount] = useState(null);
-
+  const [totalRecipes, setTotalRecipes] = useState(0); // State for total recipes
 
 
   const fetchDishes = async (page = 1) => {
@@ -31,8 +31,19 @@ function Dashboard() {
     }
   };
 
+
+  const fetchRecipes = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/recipes/'); // Adjust endpoint as necessary
+      setTotalRecipes(response.data.length); // Assuming response.data is an array of recipes
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  };
+
   useEffect(() => {
     fetchDishes();
+    fetchRecipes();
   }, []);
 /***********order*********** */
 
@@ -86,7 +97,7 @@ useEffect(() => {
             {/* Total Recipes Card */}
             <div className="p-6 bg-white rounded-lg shadow-lg">
               <h2 className="mb-2 text-xl font-semibold text-[#b0956e]">Total Recipes</h2>
-              <p className="text-2xl font-bold text-[#b0956e]">33</p>
+              <p className="text-2xl font-bold text-[#b0956e]">{totalRecipes}</p>
             </div>
           </div>
         </div>

@@ -34,8 +34,7 @@ const dishSchema = new mongoose.Schema({
   },
   size: {
     type: String,
-    enum: ["small", "medium", "large"], // example sizes, you can customize this
-    default: "medium",
+    default: "m",
   },
   cuisine: {
     type: mongoose.Schema.Types.ObjectId,
